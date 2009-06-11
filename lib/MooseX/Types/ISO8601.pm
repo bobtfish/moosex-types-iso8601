@@ -100,6 +100,26 @@ The duration represented as a L<DateTime::Duration> object.
 
     http://github.com/bobtfish/moosex-types-iso8601/tree/master
 
+=head1 BUGS
+
+Probably full of them, patches are very welcome.
+
+Specifically missing features:
+
+=over
+
+=item Currently no time string support, just durations
+
+=item Duration string support only supports durations measured in hours
+
+=item No timezone string support
+
+=item Unsure if strings are proprly accurate to the spec
+
+=item Tests are rubbish.
+
+=back
+
 =head1 AUTHOR
 
 Tomas Doran (t0m) C<< <bobtfish@bobtfish.net> >>
