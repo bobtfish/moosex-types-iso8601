@@ -21,9 +21,9 @@ my $_Duration_coerce_to_ISO8601 = sub {
 
 coerce ISO8601DurationStr,
     from Duration,
-        via $_Duration_coerce_to_ISO8601,
+        via { $_Duration_coerce_to_ISO8601->($_) },
     from Num,
-        via $_Duration_coerce_to_ISO8601;
+        via { $_Duration_coerce_to_ISO8601->(to_Duration($_)) };
         # FIXME - should be able to say => via_type 'DateTime::Duration';
         # nothingmuch promised to make that syntax happen if I got
         # Stevan to approve and/or wrote a test case.
