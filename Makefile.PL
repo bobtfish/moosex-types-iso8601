@@ -17,5 +17,6 @@ requires 'namespace::autoclean' => '0.05';
 test_requires 'Test::More';
 test_requires 'Test::Exception';
 
+auto_install;
 WriteAll;
 

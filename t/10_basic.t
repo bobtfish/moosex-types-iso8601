@@ -4,10 +4,10 @@ use warnings;
 {
     package MyClass;
     use Moose;
-    use MooseX::Types::ISO8601 qw/ISO8601DurationStr/;
+    use MooseX::Types::ISO8601 qw/ISO8601TimeDurationStr/;
     use namespace::autoclean;
 
-    has duration => ( isa => ISO8601DurationStr, coerce => 1, required => 1, is => 'ro' );
+    has duration => ( isa => ISO8601TimeDurationStr, coerce => 1, required => 1, is => 'ro' );
 }
 
 use Test::More tests => 4;

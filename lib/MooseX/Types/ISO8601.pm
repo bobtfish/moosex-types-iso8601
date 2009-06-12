@@ -9,30 +9,62 @@ use namespace::autoclean;
 our $VERSION = "0.00_01";
 
 use MooseX::Types -declare => [qw(
-    ISO8601Str
-    ISO8601DurationStr
+    ISO8601DateStr
+    ISO8601TimeStr
+    ISO8601DateTimeStr
+    ISO8601TimeDurationStr
+    ISO8601DateDurationStr
+    ISO8601DateTimeDurationStr
 )];
 
-subtype ISO8601Str,
+subtype ISO8601DateStr,
     as Str,
-    where { /^$/ };
+    where { /^\d{4}-\d{2}-\d{2}$/ };
 
-subtype ISO8601DurationStr,
+subtype ISO8601TimeStr,
+    as Str,
+    where { /^\d{2}:\d{2}Z?$/ };
+
+subtype ISO8601DateTimeStr,
+    as Str,
+    where { /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z?$/ };
+
+subtype ISO8601TimeDurationStr,
     as Str,
     where { /^PT\d{2}H\d{2}M\d{2}S$/ };
 
-my $_Duration_coerce_to_ISO8601 = sub {
-    DateTime::Format::Duration->new(normalize => 1, pattern   => 'PT%02HH%02MM%02SS' )->format_duration( shift );
-};
+subtype ISO8601DateDurationStr,
+    as Str,
+    where { /^PT\d+Y\d{2}M\d{2}D$/ };
 
-coerce ISO8601DurationStr,
-    from Duration,
-        via { $_Duration_coerce_to_ISO8601->($_) },
-    from Num,
-        via { $_Duration_coerce_to_ISO8601->(to_Duration($_)) };
-        # FIXME - should be able to say => via_type 'DateTime::Duration';
-        # nothingmuch promised to make that syntax happen if I got
-        # Stevan to approve and/or wrote a test case.
+subtype ISO8601DateTimeDurationStr,
+    as Str,
+    where { /^P\d+Y\d{2}M\d{2}DT\d{2}H\d{2}M\d{2}S$/ };
+
+my %coerce = (
+    ISO8601TimeDurationStr, 'PT%02HH%02MM%02SS',
+    ISO8601DateDurationStr, 'PT%02YY%02MM%02DD',
+    ISO8601DateTimeDurationStr, 'PT%02YY%02MM%02DD%02HH%02MM%02SS',
+);
+
+foreach my $type_name (keys %coerce) {
+    my $code = sub {
+        DateTime::Format::Duration->new(
+            normalize => 1,
+            pattern   => $coerce{$type_name},
+        )
+        ->format_duration( shift );
+    };
+
+    coerce $type_name,
+        from Duration,
+            via { $code->($_) },
+        from Num,
+            via { $code->(to_Duration($_)) };
+            # FIXME - should be able to say => via_type 'DateTime::Duration';
+            # nothingmuch promised to make that syntax happen if I got
+            # Stevan to approve and/or wrote a test case.
+}
 
 1;
 
