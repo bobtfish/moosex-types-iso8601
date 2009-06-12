@@ -76,10 +76,12 @@ MooseX::Types::ISO8601 - ISO8601 date and duration string type constraints and c
 
 =head1 SYNOPSIS
 
-    use MooseX::Types::ISO8601 qw/ISO8601DurationStr/;
+    use MooseX::Types::ISO8601 qw/
+        ISO8601TimeDurationStr
+    /;
 
     has duration => (
-        isa => ISO8601DurationStr,
+        isa => ISO8601TimeDurationStr,
         is => 'ro',
         coerce => 1,
     );
@@ -89,16 +91,60 @@ MooseX::Types::ISO8601 - ISO8601 date and duration string type constraints and c
 
 =head1 DESCRIPTION
 
-This module packages several L<TypeConstraints|Moose::Util::TypeConstraints> with coercions,
-designed to work with the DateTime suite of objects.
+This module packages several L<TypeConstraints|Moose::Util::TypeConstraints> with
+coercions for working with ISO8601 date strings and the DateTime suite of objects.
 
 =head1 CONSTRAINTS
 
 =over
 
-=item ISO8601DurationStr
+=item ISO8601DateStr
 
-An ISO8601 duration string
+An ISO8601 date string. E.g. C<< 2009-06-11 >>
+
+=item ISO8601TimeStr
+
+An ISO8601 time string. E.g. C<< 12:06Z >>
+
+=item ISO8601DateTimeStr
+
+An ISO8601 combined datetime string. E.g. C<< 2009-06-11T12:06Z >>
+
+=item ISO8601DateDurationStr
+
+An ISO8601 date duration string. E.g. C<< P01Y01M01D >>
+
+=over
+
+=item from C< Num >
+
+The number is treated as a time in seconds
+
+=item from C< DateTime::Duration >
+
+The duration represented as a L<DateTime::Duration> object.
+
+=back
+
+=item ISO8601TimeDurationStr
+
+An ISO8601 time duration string. E.g. C<< PT01H01M01S >>
+
+=over
+
+=item from C< Num >
+
+The number is treated as a time in seconds
+
+=item from C< DateTime::Duration >
+
+The duration represented as a L<DateTime::Duration> object.
+
+=back
+
+=item ISO8601DateTimeDurationStr
+
+An ISO8601 comboined date and time duration string. E.g. C<< P01Y01M01DT01H01M01S >>
 
 =over
 
@@ -140,13 +186,11 @@ Specifically missing features:
 
 =over
 
-=item Currently no time string support, just durations
+=item No coercions for times yet
 
-=item Duration string support only supports durations measured in hours
+=item No timezone support - all times are assumed UTC
 
-=item No timezone string support
-
-=item Unsure if strings are proprly accurate to the spec
+=item No week number type
 
 =item Tests are rubbish.
 
