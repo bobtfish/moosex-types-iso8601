@@ -44,7 +44,7 @@ subtype ISO8601DateTimeDurationStr,
 my %coerce = (
     ISO8601TimeDurationStr, 'PT%02HH%02MM%02SS',
     ISO8601DateDurationStr, 'PT%02YY%02MM%02DD',
-    ISO8601DateTimeDurationStr, 'PT%02YY%02MM%02DD%02HH%02MM%02SS',
+    ISO8601DateTimeDurationStr, 'P%02YY%02MM%02DDT%02HH%02MM%02SS',
 );
 
 foreach my $type_name (keys %coerce) {
