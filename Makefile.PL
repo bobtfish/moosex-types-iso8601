@@ -19,6 +19,11 @@ test_requires 'Test::Exception';
 
 resources repository => 'git://github.com/bobtfish/moosex-types-iso8601.git';
 
+if ($Module::Install::AUTHOR) {
+    system("pod2text lib/MooseX/Types/ISO8601.pm > README")
+        and die;
+}
+
 auto_install;
 WriteAll;
 
