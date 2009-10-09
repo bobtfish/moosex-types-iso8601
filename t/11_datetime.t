@@ -30,12 +30,12 @@ use DateTime;
 lives_ok {
     my $i = My::DateClass->new(
         date => '2009-01-01',
-        time => '12:34Z',
-        datetime => '2009-01-01T12:34Z',
+        time => '12:34:29Z',
+        datetime => '2009-01-01T12:34:29Z',
     );
     is( $i->date, '2009-01-01', 'Date unmangled' );
-    is( $i->time, '12:34Z', 'Time unmangled' );
-    is( $i->datetime, '2009-01-01T12:34Z', 'Datetime unmangled' );
+    is( $i->time, '12:34:29Z', 'Time unmangled' );
+    is( $i->datetime, '2009-01-01T12:34:29Z', 'Datetime unmangled' );
 } 'Date class instance';
 
 lives_ok {
@@ -46,7 +46,7 @@ lives_ok {
     ok !ref($_) for map { $i->$_ } qw/date time datetime/;
     like( $i->date, qr/\d{4}-\d{2}-\d{2}/, 'Date mangled' );
     like( $i->time, qr/\d{2}:\d{2}Z/, 'Time mangled' );
-    like( $i->datetime, qr/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z/, 'Datetime mangled' );
+    like( $i->datetime, qr/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, 'Datetime mangled' );
 } 'Date class instance with coercion';
 
 done_testing;

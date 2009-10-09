@@ -2,7 +2,7 @@ package MooseX::Types::ISO8601;
 use Moose ();
 use DateTime;
 use DateTime::Format::Duration;
-use MooseX::Types::DateTime qw(Duration);
+use MooseX::Types::DateTime qw(Duration DateTime);
 use MooseX::Types::Moose qw/Str Num/;
 use namespace::autoclean;
 
@@ -23,11 +23,11 @@ subtype ISO8601DateStr,
 
 subtype ISO8601TimeStr,
     as Str,
-    where { /^\d{2}:\d{2}Z?$/ };
+    where { /^\d{2}:\d{2}:\d{2}Z?$/ };
 
 subtype ISO8601DateTimeStr,
     as Str,
-    where { /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z?$/ };
+    where { /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z?$/ };
 
 subtype ISO8601TimeDurationStr,
     as Str,
@@ -41,22 +41,24 @@ subtype ISO8601DateTimeDurationStr,
     as Str,
     where { /^P\d+Y\d{2}M\d{2}DT\d{2}H\d{2}M\d{2}S$/ };
 
-my %coerce = (
-    ISO8601TimeDurationStr, 'PT%02HH%02MM%02SS',
-    ISO8601DateDurationStr, 'PT%02YY%02MM%02DD',
-    ISO8601DateTimeDurationStr, 'P%02YY%02MM%02DDT%02HH%02MM%02SS',
-);
+{
+    my %coerce = (
+        ISO8601TimeDurationStr, 'PT%02HH%02MM%02SS',
+        ISO8601DateDurationStr, 'PT%02YY%02MM%02DD',
+        ISO8601DateTimeDurationStr, 'P%02YY%02MM%02DDT%02HH%02MM%02SS',
+    );
 
-foreach my $type_name (keys %coerce) {
-    my $code = sub {
-        DateTime::Format::Duration->new(
-            normalize => 1,
-            pattern   => $coerce{$type_name},
-        )
-        ->format_duration( shift );
-    };
+    foreach my $type_name (keys %coerce) {
 
-    coerce $type_name,
+        my $code = sub {
+            DateTime::Format::Duration->new(
+                normalize => 1,
+                pattern   => $coerce{$type_name},
+            )
+            ->format_duration( shift );
+        };
+
+        coerce $type_name,
         from Duration,
             via { $code->($_) },
         from Num,
@@ -64,6 +66,24 @@ foreach my $type_name (keys %coerce) {
             # FIXME - should be able to say => via_type 'DateTime::Duration';
             # nothingmuch promised to make that syntax happen if I got
             # Stevan to approve and/or wrote a test case.
+    }
+}
+
+{
+    my %coerce = (
+        ISO8601TimeStr, sub { $_[0]->hms(':') . 'Z' },
+        ISO8601DateStr, sub { $_[0]->ymd('-') },
+        ISO8601DateTimeStr, sub { $_[0]->ymd('-') . 'T' . $_[0]->hms(':') . 'Z' },
+    );
+
+    foreach my $type_name (keys %coerce) {
+
+        coerce $type_name,
+        from DateTime,
+            via { $coerce{$type_name}->($_) },
+        from Num,
+            via { $coerce{$type_name}->(DateTime->from_epoch( epoch => $_ )) };
+    }
 }
 
 1;
@@ -94,69 +114,63 @@ MooseX::Types::ISO8601 - ISO8601 date and duration string type constraints and c
 This module packages several L<TypeConstraints|Moose::Util::TypeConstraints> with
 coercions for working with ISO8601 date strings and the DateTime suite of objects.
 
-=head1 CONSTRAINTS
+=head1 DATE CONSTRAINTS
 
-=over
-
-=item ISO8601DateStr
+=head2 ISO8601DateStr
 
 An ISO8601 date string. E.g. C<< 2009-06-11 >>
 
-=item ISO8601TimeStr
+=head2 ISO8601TimeStr
 
-An ISO8601 time string. E.g. C<< 12:06Z >>
+An ISO8601 time string. E.g. C<< 12:06:34Z >>
 
-=item ISO8601DateTimeStr
+=head2 ISO8601DateTimeStr
 
-An ISO8601 combined datetime string. E.g. C<< 2009-06-11T12:06Z >>
+An ISO8601 combined datetime string. E.g. C<< 2009-06-11T12:06:34Z >>
 
-=item ISO8601DateDurationStr
+=head2 COERCIONS
+
+The date types will coerce from:
+
+=over
+
+=item C< Num >
+
+The number is treated as a time in seconds since the unix epoch
+
+=item C< DateTime >
+
+The duration represented as a L<DateTime> object.
+
+=back
+
+=head1 DURATION CONSTRAINTS
+
+=head2 ISO8601DateDurationStr
 
 An ISO8601 date duration string. E.g. C<< P01Y01M01D >>
 
-=over
-
-=item from C< Num >
-
-The number is treated as a time in seconds
-
-=item from C< DateTime::Duration >
-
-The duration represented as a L<DateTime::Duration> object.
-
-=back
-
-=item ISO8601TimeDurationStr
+=head2 ISO8601TimeDurationStr
 
 An ISO8601 time duration string. E.g. C<< PT01H01M01S >>
 
-=over
-
-=item from C< Num >
-
-The number is treated as a time in seconds
-
-=item from C< DateTime::Duration >
-
-The duration represented as a L<DateTime::Duration> object.
-
-=back
-
-=item ISO8601DateTimeDurationStr
+=head2 ISO8601DateTimeDurationStr
 
 An ISO8601 comboined date and time duration string. E.g. C<< P01Y01M01DT01H01M01S >>
 
+=head2 COERCIONS
+
+The duration types will coerce from:
+
 =over
 
-=item from C< Num >
+=item C< Num >
 
 The number is treated as a time in seconds
 
-=item from C< DateTime::Duration >
+=item C< DateTime::Duration >
 
 The duration represented as a L<DateTime::Duration> object.
-
-=back
 
 =back
 
@@ -164,19 +178,29 @@ The duration represented as a L<DateTime::Duration> object.
 
 =over
 
-=item L<MooseX::Types::DateTime>
+=item *
 
-=item L<DateTime>
+L<MooseX::Types::DateTime>
 
-=item L<DateTime::Duration>
+=item *
 
-=item L<DateTime::Format::Duration>
+L<DateTime>
+
+=item *
+
+L<DateTime::Duration>
+
+=item *
+
+L<DateTime::Format::Duration>
 
 =back
 
 =head1 VERSION CONTROL
 
     http://github.com/bobtfish/moosex-types-iso8601/tree/master
+
+Patches are welcome.
 
 =head1 BUGS
 
@@ -185,8 +209,6 @@ Probably full of them, patches are very welcome.
 Specifically missing features:
 
 =over
-
-=item No coercions for times yet
 
 =item No timezone support - all times are assumed UTC
 
