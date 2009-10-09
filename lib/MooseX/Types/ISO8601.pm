@@ -6,7 +6,7 @@ use MooseX::Types::DateTime qw(Duration DateTime);
 use MooseX::Types::Moose qw/Str Num/;
 use namespace::autoclean;
 
-our $VERSION = "0.00_01";
+our $VERSION = "0.02";
 
 use MooseX::Types -declare => [qw(
     ISO8601DateStr
