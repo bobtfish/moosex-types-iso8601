@@ -22,8 +22,10 @@ use warnings;
     }
 }
 
-use Test::More tests => 4;
+use Test::More;
 use Test::Exception;
+
+use DateTime;
 
 lives_ok {
     my $i = My::DateClass->new(
@@ -35,4 +37,17 @@ lives_ok {
     is( $i->time, '12:34Z', 'Time unmangled' );
     is( $i->datetime, '2009-01-01T12:34Z', 'Datetime unmangled' );
 } 'Date class instance';
+
+lives_ok {
+    my $date = DateTime->now;
+    my $i = My::DateClass->new(
+        map { $_ => $date } qw/date time datetime/
+    );
+    ok !ref($_) for map { $i->$_ } qw/date time datetime/;
+    like( $i->date, qr/\d{4}-\d{2}-\d{2}/, 'Date mangled' );
+    like( $i->time, qr/\d{2}:\d{2}Z/, 'Time mangled' );
+    like( $i->datetime, qr/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z/, 'Datetime mangled' );
+} 'Date class instance with coercion';
+
+done_testing;
 
