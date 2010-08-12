@@ -1,3 +1,6 @@
+  - See also to the ISO8601 wiki page.
+  - Added fractional times and tests to Durations.
+
 0.02 Fri Oct  9 11:00:55 BST 2009
   - Fixed time types.
   - Added coercions for the time types.
