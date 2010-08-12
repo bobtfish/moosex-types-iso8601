@@ -30,7 +30,7 @@ subtype ISO8601DateTimeStr,
     as Str,
     where { /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z?$/ };
 
-my $timeduration_re = qr/^PT(\d{1,2})H(\d{1,2})M(\d{0,2}(?:\.(\d+))?)S$/;
+my $timeduration_re = qr/^PT(\d{1,2})H(\d{1,2})M(\d{0,2})(?:\.(\d+))?S$/;
 subtype ISO8601TimeDurationStr,
     as Str,
     where { /$timeduration_re/ };
@@ -40,7 +40,7 @@ subtype ISO8601DateDurationStr,
     as Str,
     where { /$dateduration_re/ };
 
-my $datetimeduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})DT(\d{1,2})H(\d{1,2})M(\d{0,2}(?:\.(\d+))?)S$/;
+my $datetimeduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})DT(\d{1,2})H(\d{1,2})M(\d{0,2})(?:\.(\d+))?S$/;
 subtype ISO8601DateTimeDurationStr,
     as Str,
     where { /$datetimeduration_re/ };
@@ -48,8 +48,8 @@ subtype ISO8601DateTimeDurationStr,
 {
     my %coerce = (
         ISO8601TimeDurationStr, 'PT%02HH%02MM%02SS',
-        ISO8601DateDurationStr, 'PT%02YY%02MM%02DD',
-        ISO8601DateTimeDurationStr, 'P%02YY%02MM%02DDT%02HH%02MM%02SS',
+        ISO8601DateDurationStr, 'PT%02YY%02mM%02DD',
+        ISO8601DateTimeDurationStr, 'P%02YY%02mM%02DDT%02HH%02MM%02SS',
     );
 
     foreach my $type_name (keys %coerce) {
@@ -98,6 +98,13 @@ subtype ISO8601DateTimeDurationStr,
         from ISO8601DateTimeDurationStr,
             via {
                 my @fields = $_ =~ /$datetimeduration_re/;
+                if ($fields[6]) {
+                    my $missing = 9 - length($fields[6]);
+                    $fields[6] .= "0" x $missing;
+                }
+                else {
+                    $fields[6] = 0;
+                }
                 DateTime::Duration->new( zip @datetimefields, @fields );
             },
         from ISO8601DateDurationStr,
@@ -108,6 +115,13 @@ subtype ISO8601DateTimeDurationStr,
         from ISO8601TimeDurationStr,
             via {
                 my @fields = $_ =~ /$timeduration_re/;
+                if ($fields[3]) {
+                    my $missing = 9 - length($fields[3]);
+                    $fields[3] .= "0" x $missing;
+                }
+                else {
+                    $fields[3] = 0;
+                }
                 DateTime::Duration->new( zip @timefields, @fields );
             };
 }
