@@ -65,6 +65,7 @@ use MooseX::Types::DateTime qw/ Duration /;
 foreach my $tp (
         ['PT0H15M.507S', 'PT00H15M00S'], # Note pairs, as we normalise whilst
                                          # roundtripping..
+        ['PT4M10S','PT00H04M10S'],
     ) {
     my $t = $tp->[0];
     my $ret = $tp->[1] || $t;
