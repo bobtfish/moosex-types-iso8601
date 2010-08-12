@@ -31,15 +31,15 @@ subtype ISO8601DateTimeStr,
 
 subtype ISO8601TimeDurationStr,
     as Str,
-    where { /^PT\d{2}H\d{2}M\d{2}S$/ };
+    where { /^PT\d{1,2}H\d{1,2}M\d{0,2}(?:\.\d+)?S$/ };
 
 subtype ISO8601DateDurationStr,
     as Str,
-    where { /^PT\d+Y\d{2}M\d{2}D$/ };
+    where { /^PT\d+Y\d{1,2}M\d{1,2}D$/ };
 
 subtype ISO8601DateTimeDurationStr,
     as Str,
-    where { /^P\d+Y\d{2}M\d{2}DT\d{2}H\d{2}M\d{2}S$/ };
+    where { /^P\d+Y\d{1,2}M\d{1,2}DT\d{1,2}H\d{1,2}M\d{0,2}(?:\.\d+)?S$/ };
 
 {
     my %coerce = (
@@ -201,6 +201,20 @@ L<DateTime::Format::Duration>
     http://github.com/bobtfish/moosex-types-iso8601/tree/master
 
 Patches are welcome.
+
+=head1 SEE ALSO
+
+=over
+
+=item *
+
+http://en.wikipedia.org/wiki/ISO_8601
+
+=item *
+
+http://dotat.at/tmp/ISO_8601-2004_E.pdf
+
+=back
 
 =head1 BUGS
 

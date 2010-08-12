@@ -1,5 +1,7 @@
 use strict;
 use warnings;
+use Test::More;
+use Test::Exception;
 
 {
     package MyClass;
@@ -21,9 +23,6 @@ use warnings;
         );
     }
 }
-
-use Test::More tests => 8;
-use Test::Exception;
 
 lives_ok {
     my ($time_duration, $date_duration, $datetime_duration)
@@ -54,4 +53,15 @@ lives_ok {
     is($i->datetime_duration, 'P00Y28M02DT00H28M16S',
         'DateTime duration number coerced');
 } 'Create with Numeric duration';
+
+use MooseX::Types::ISO8601 qw/
+        ISO8601TimeDurationStr
+        ISO8601DateDurationStr
+        ISO8601DateTimeDurationStr
+    /;
+
+ok is_ISO8601TimeDurationStr('PT0H15M.507S'), 'Non integer number of seconds';
+ok is_ISO8601DateTimeDurationStr('P0Y1M1DT0H15M.507S');
+
+done_testing;
 
