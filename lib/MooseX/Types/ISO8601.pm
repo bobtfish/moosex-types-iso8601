@@ -30,7 +30,7 @@ subtype ISO8601DateTimeStr,
     as Str,
     where { /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z?$/ };
 
-my $timeduration_re = qr/^PT(\d{1,2})H(\d{1,2})M(\d{0,2}(?:\.\d+)?)S$/;
+my $timeduration_re = qr/^PT(\d{1,2})H(\d{1,2})M(\d{0,2}(?:\.(\d+))?)S$/;
 subtype ISO8601TimeDurationStr,
     as Str,
     where { /$timeduration_re/ };
@@ -40,7 +40,7 @@ subtype ISO8601DateDurationStr,
     as Str,
     where { /$dateduration_re/ };
 
-my $datetimeduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})DT(\d{1,2})H(\d{1,2})M(\d{0,2}(?:\.\d+)?)S$/;
+my $datetimeduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})DT(\d{1,2})H(\d{1,2})M(\d{0,2}(?:\.(\d+))?)S$/;
 subtype ISO8601DateTimeDurationStr,
     as Str,
     where { /$datetimeduration_re/ };
@@ -88,6 +88,28 @@ subtype ISO8601DateTimeDurationStr,
         from Num,
             via { $coerce{$type_name}->(DateTime->from_epoch( epoch => $_ )) };
     }
+}
+
+{
+    my @datefields = qw/ years months days /;
+    my @timefields = qw/ hours minutes seconds nanoseconds /;
+    my @datetimefields = (@datefields, @timefields);
+    coerce Duration,
+        from ISO8601DateTimeDurationStr,
+            via {
+                my @fields = $_ =~ /$datetimeduration_re/;
+                DateTime::Duration->new( zip @datetimefields, @fields );
+            },
+        from ISO8601DateDurationStr,
+            via {
+                my @fields = $_ =~ /$dateduration_re/;
+                DateTime::Duration->new( zip @datefields, @fields );
+            },
+        from ISO8601TimeDurationStr,
+            via {
+                my @fields = $_ =~ /$timeduration_re/;
+                DateTime::Duration->new( zip @timefields, @fields );
+            };
 }
 
 1;

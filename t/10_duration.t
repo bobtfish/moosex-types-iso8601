@@ -59,8 +59,16 @@ use MooseX::Types::ISO8601 qw/
         ISO8601DateDurationStr
         ISO8601DateTimeDurationStr
     /;
+use MooseX::Types::DateTime qw/ Duration /;
 
-ok is_ISO8601TimeDurationStr('PT0H15M.507S'), 'Non integer number of seconds';
+foreach my $t ('PT0H15M.507S') {
+    ok is_ISO8601TimeDurationStr($t), $t . ' is ISO8601TimeDurationStr';
+    my $dt = to_Duration($t);
+    ok $dt, 'Appears to coerce to DateTime::Duration';
+    isa_ok $dt, 'DateTime::Duration';
+    is to_ISO8601TimeDurationStr($dt), $t, $t . ' round trips';
+}
+
 ok is_ISO8601DateTimeDurationStr('P0Y1M1DT0H15M.507S');
 
 done_testing;
