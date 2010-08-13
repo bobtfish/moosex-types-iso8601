@@ -215,6 +215,17 @@ The duration represented as a L<DateTime::Duration> object.
 
 =back
 
+The duration types will coerce to:
+
+=over
+
+=item C< Duration >
+
+A L<DateTime::Duration>, i.e. the C< Duration > constraint from
+L<MooseX::Types::DateTime>.
+
+=back
+
 =head1 SEE ALSO
 
 =over

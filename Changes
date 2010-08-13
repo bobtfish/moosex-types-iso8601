@@ -1,5 +1,8 @@
   - See also to the ISO8601 wiki page.
   - Added fractional times and tests to Durations.
+  - Added coercion from Durations to DateTime objects
+  - Deal better with duration cases found in the spec
+    and real world by dealing with optionally empty hours.
 
 0.02 Fri Oct  9 11:00:55 BST 2009
   - Fixed time types.
