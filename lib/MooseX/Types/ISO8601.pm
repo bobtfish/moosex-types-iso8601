@@ -7,7 +7,7 @@ use MooseX::Types::Moose qw/Str Num/;
 use List::MoreUtils qw/ zip /;
 use namespace::autoclean;
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 use MooseX::Types -declare => [qw(
     ISO8601DateStr

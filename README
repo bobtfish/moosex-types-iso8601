@@ -59,6 +59,12 @@ DURATION CONSTRAINTS
     " DateTime::Duration "
         The duration represented as a DateTime::Duration object.
 
+    The duration types will coerce to:
+
+    " Duration "
+        A DateTime::Duration, i.e. the " Duration " constraint from
+        MooseX::Types::DateTime.
+
 SEE ALSO
     *   MooseX::Types::DateTime
 
