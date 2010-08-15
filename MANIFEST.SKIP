@@ -1,3 +1,4 @@
+\bMooseX-Types-ISO8601.*
 # Avoid version control files.
 \bRCS\b
 \bCVS\b
