@@ -1,3 +1,4 @@
+0.04 Sun Aug 15 18:23:00 BST 2010
   - Fix tests on perls compiled with uselongdoubles (RT#60356)
 
 0.03 Fri Aug 13 11:15:00 BST 2010
