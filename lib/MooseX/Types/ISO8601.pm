@@ -5,9 +5,18 @@ use DateTime::Format::Duration;
 use MooseX::Types::DateTime qw(Duration DateTime);
 use MooseX::Types::Moose qw/Str Num/;
 use List::MoreUtils qw/ zip /;
+use Try::Tiny qw/try/;
+our $MYSQL;
+BEGIN {
+    $MYSQL = 0;
+    if (try { Class::MOP::load_class('MooseX::Types::DateTime::MySQL') }) {
+            MooseX::Types::DateTime::MySQL->import(qw/ MySQLDateTime /);
+            $MYSQL = 1;
+    }
+}
 use namespace::autoclean;
 
-our $VERSION = "0.04";
+our $VERSION = "0.05";
 
 use MooseX::Types -declare => [qw(
     ISO8601DateStr
@@ -87,6 +96,10 @@ subtype ISO8601DateTimeDurationStr,
             via { $coerce{$type_name}->($_) },
         from Num,
             via { $coerce{$type_name}->(DateTime->from_epoch( epoch => $_ )) };
+
+        if (1) {
+            coerce $type_name, from MySQLDateTime, via { $coerce{$type_name}->(to_DateTime($_)) };
+        }
     }
 }
 

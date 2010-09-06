@@ -1,3 +1,6 @@
+0.05
+  - Add support for coercing to and from MooseX::Types::DateTime::MySQL
+
 0.04 Sun Aug 15 18:23:00 BST 2010
   - Fix tests on perls compiled with uselongdoubles (RT#60356)
 
