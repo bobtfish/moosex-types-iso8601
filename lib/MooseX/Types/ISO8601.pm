@@ -16,7 +16,7 @@ BEGIN {
 }
 use namespace::autoclean;
 
-our $VERSION = "0.06";
+our $VERSION = "0.07";
 
 use MooseX::Types -declare => [qw(
     ISO8601DateStr
@@ -98,7 +98,8 @@ subtype ISO8601DateTimeDurationStr,
             via { $coerce{$type_name}->(DateTime->from_epoch( epoch => $_ )) };
 
         if ($MYSQL) {
-            coerce $type_name, from __PACKAGE__->can('MySQLDateTime')->(), via { $coerce{$type_name}->(to_DateTime($_)) };
+            coerce $type_name, from MySQLDateTime(),
+            via { $coerce{$type_name}->(to_DateTime($_)) };
         }
     }
 }
