@@ -1,4 +1,4 @@
-0.05
+0.05 Mon Sept  6 15:16:00 BST 2010
   - Add support for coercing to and from MooseX::Types::DateTime::MySQL
 
 0.04 Sun Aug 15 18:23:00 BST 2010
