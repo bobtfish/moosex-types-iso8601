@@ -83,6 +83,10 @@ foreach my $tp (
 }
 
 # DateTime durations
+
+ok !is_ISO8601DateTimeDurationStr("P");
+ok !is_ISO8601DateTimeDurationStr("PT");
+
 foreach my $tp (
         ['P00Y08M02DT0H15M.507S', 'P00Y08M02DT00H15M00S'],
     ) {
@@ -98,6 +102,9 @@ foreach my $tp (
 }
 
 # Date durations
+
+ok !is_ISO8601DateDurationStr("P");
+
 foreach my $tp (
         ['P02Y08M02D'],
         ['P02D', 'P00Y00M02D'],
