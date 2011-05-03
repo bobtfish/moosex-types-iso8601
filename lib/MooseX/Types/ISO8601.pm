@@ -30,7 +30,8 @@ subtype ISO8601DateTimeStr,
     as Str,
     where { /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z?$/ };
 
-my $timeduration_re = qr/^PT(?:(\d{1,2})H)?(\d{1,2})M(\d{0,2})(?:\.(\d+))?S$/;
+
+my $timeduration_re = qr/^PT(?:(\d{1,2})H)?(?:(\d{1,2})M)?(?:(\d{0,2})(?:\.(\d+))?S)?$/;
 subtype ISO8601TimeDurationStr,
     as Str,
     where { /$timeduration_re/ };
@@ -114,14 +115,10 @@ subtype ISO8601DateTimeDurationStr,
             },
         from ISO8601TimeDurationStr,
             via {
-                my @fields = $_ =~ /$timeduration_re/;
-                $fields[0] ||= 0;
+                my @fields = map { $_ || 0 } $_ =~ /$timeduration_re/;
                 if ($fields[3]) {
                     my $missing = 9 - length($fields[3]);
                     $fields[3] .= "0" x $missing;
-                }
-                else {
-                    $fields[3] = 0;
                 }
                 DateTime::Duration->new( zip @timefields, @fields );
             };
