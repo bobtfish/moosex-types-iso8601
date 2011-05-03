@@ -66,7 +66,7 @@ foreach my $tp (
         ['PT0H15M.507S', 'PT00H15M00S'], # Note pairs, as we normalise whilst
                                          # roundtripping..
         ['PT4M10S','PT00H04M10S'],
-        ['PT51S', 'PT00D00M51S'],
+        ['PT51S', 'PT00H00M51S'],
     ) {
     my $t = $tp->[0];
     my $ret = $tp->[1] || $t;
