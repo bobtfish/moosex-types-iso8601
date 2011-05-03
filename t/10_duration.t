@@ -44,13 +44,13 @@ lives_ok {
     my $i = MyClass->new(
         time_duration => 60,
         date_duration => 60000000000,
-        datetime_duration => 6666666666666666666666,
+        datetime_duration => 60000000000,
     );
     is($i->time_duration, 'PT00H01M00S',
         'Time duration number coerced');
     is($i->date_duration, 'PT00Y00M02D',
         'Date duration number coerced');
-    is($i->datetime_duration, 'P00Y00M02DT00H28M16S',
+    is($i->datetime_duration, 'P00Y00M02DT10H40M00S',
         'DateTime duration number coerced');
 } 'Create with Numeric duration';
 
