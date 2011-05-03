@@ -62,6 +62,9 @@ use MooseX::Types::ISO8601 qw/
 use MooseX::Types::DateTime qw/ Duration /;
 
 # Time durations
+
+ok !is_ISO8601TimeDurationStr("PT");
+
 foreach my $tp (
         ['PT0H15M.507S', 'PT00H15M00S'], # Note pairs, as we normalise whilst
                                          # roundtripping..
