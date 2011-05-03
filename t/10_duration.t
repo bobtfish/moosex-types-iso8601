@@ -26,7 +26,7 @@ use Test::Exception;
 
 lives_ok {
     my ($time_duration, $date_duration, $datetime_duration)
-        = ('PT00H00M00S', 'PT01Y01M01D', 'P01Y01M01DT00H00M00S');
+        = ('PT00H00M00S', 'P01Y01M01D', 'P01Y01M01DT00H00M00S');
     my $i = MyClass->new(
         time_duration => $time_duration,
         date_duration => $date_duration,
@@ -48,7 +48,7 @@ lives_ok {
     );
     is($i->time_duration, 'PT00H01M00S',
         'Time duration number coerced');
-    is($i->date_duration, 'PT00Y00M02D',
+    is($i->date_duration, 'P00Y00M02D',
         'Date duration number coerced');
     is($i->datetime_duration, 'P00Y00M02DT10H40M00S',
         'DateTime duration number coerced');
