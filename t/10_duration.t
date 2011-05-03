@@ -99,7 +99,7 @@ foreach my $tp (
 
 # Date durations
 foreach my $tp (
-        ['PT02Y08M02D'],
+        ['P02Y08M02D'],
     ) {
     my $t = $tp->[0];
     my $ret = $tp->[1] || $t;
