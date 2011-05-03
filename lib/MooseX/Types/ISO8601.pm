@@ -51,7 +51,7 @@ subtype ISO8601TimeDurationStr,
     as Str,
     where { grep { looks_like_number($_) } /$timeduration_re/; };
 
-my $dateduration_re = qr/^PT(\d+)Y(\d{1,2})M(\d{1,2})D$/;
+my $dateduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})D$/;
 subtype ISO8601DateDurationStr,
     as Str,
     where { /$dateduration_re/ };
