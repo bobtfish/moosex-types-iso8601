@@ -5,6 +5,7 @@ use DateTime::Format::Duration;
 use MooseX::Types::DateTime qw(Duration DateTime);
 use MooseX::Types::Moose qw/Str Num/;
 use List::MoreUtils qw/ zip /;
+use Scalar::Util qw/ looks_like_number /;
 use Try::Tiny qw/try/;
 our $MYSQL;
 BEGIN {
@@ -43,7 +44,7 @@ subtype ISO8601DateTimeStr,
 my $timeduration_re = qr/^PT(?:(\d{1,2})H)?(?:(\d{1,2})M)?(?:(\d{0,2})(?:\.(\d+))?S)?$/;
 subtype ISO8601TimeDurationStr,
     as Str,
-    where { /$timeduration_re/ };
+    where { grep { looks_like_number($_) } /$timeduration_re/; };
 
 my $dateduration_re = qr/^PT(\d+)Y(\d{1,2})M(\d{1,2})D$/;
 subtype ISO8601DateDurationStr,
