@@ -41,7 +41,12 @@ subtype ISO8601DateTimeStr,
     where { /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z?$/ };
 
 
-my $timeduration_re = qr/^PT(?:(\d{1,2})H)?(?:(\d{1,2})M)?(?:(\d{0,2})(?:\.(\d+))?S)?$/;
+# TODO: According to ISO 8601:2004(E), the lowest order components may be
+# omitted, if less accuracy is required.  The lowest component may also have
+# a decimal fraction.  We don't support these both together, you may only have
+# a fraction on the seconds component.
+
+my $timeduration_re = qr/^PT(?:(\d{1,2})H)?(?:(\d{1,2})M)?(?:(\d{0,2})(?:(?:\.|,)(\d+))?S)?$/;
 subtype ISO8601TimeDurationStr,
     as Str,
     where { grep { looks_like_number($_) } /$timeduration_re/; };
@@ -51,7 +56,7 @@ subtype ISO8601DateDurationStr,
     as Str,
     where { /$dateduration_re/ };
 
-my $datetimeduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})DT(\d{1,2})H(\d{1,2})M(\d{0,2})(?:\.(\d+))?S$/;
+my $datetimeduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})DT(\d{1,2})H(\d{1,2})M(\d{0,2})(?:(?:\.|,)(\d+))?S$/;
 subtype ISO8601DateTimeDurationStr,
     as Str,
     where { /$datetimeduration_re/ };
