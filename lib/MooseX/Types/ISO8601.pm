@@ -51,10 +51,10 @@ subtype ISO8601TimeDurationStr,
     as Str,
     where { grep { looks_like_number($_) } /$timeduration_re/; };
 
-my $dateduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})D$/;
+my $dateduration_re = qr/^P(?:(\d+)Y)?(?:(\d{1,2})M)?(?:(\d{1,2})D)?$/;
 subtype ISO8601DateDurationStr,
     as Str,
-    where { /$dateduration_re/ };
+    where { grep { looks_like_number($_) } /$dateduration_re/ };
 
 my $datetimeduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})DT(\d{1,2})H(\d{1,2})M(\d{0,2})(?:(?:\.|,)(\d+))?S$/;
 subtype ISO8601DateTimeDurationStr,
@@ -130,7 +130,7 @@ subtype ISO8601DateTimeDurationStr,
             },
         from ISO8601DateDurationStr,
             via {
-                my @fields = $_ =~ /$dateduration_re/;
+                my @fields = map { $_ || 0 } $_ =~ /$dateduration_re/;
                 DateTime::Duration->new( zip @datefields, @fields );
             },
         from ISO8601TimeDurationStr,
