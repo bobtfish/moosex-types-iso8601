@@ -88,7 +88,7 @@ ok !is_ISO8601DateTimeDurationStr("P");
 ok !is_ISO8601DateTimeDurationStr("PT");
 
 foreach my $tp (
-        ['P00Y08M02DT0H15M.507S', 'P00Y08M02DT00H15M00S'],
+        ['P00Y08M02DT0H15M.507S', 'P00Y08M02DT00H15M00S'], # XXX we lose fractional seconds.
     ) {
     my $t = $tp->[0];
     my $ret = $tp->[1] || $t;
