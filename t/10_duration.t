@@ -74,7 +74,7 @@ foreach my $tp (
     my $t = $tp->[0];
     my $ret = $tp->[1] || $t;
     ok is_ISO8601TimeDurationStr($t), $t . ' is an ISO8601TimeDurationStr';
-    ok !is_ISO8601DateTimeDurationStr($t), $t . ' is not an ISO8601DateTimeDurationStr';
+    ok is_ISO8601DateTimeDurationStr($t), $t . ' is not a ISO8601DateTimeDurationStr, with no date elements';
     ok !is_ISO8601DateDurationStr($t), $t . ' is not an ISO8601DateDurationStr';
     my $dt = to_Duration($t);
     ok $dt, 'Appears to coerce to DateTime::Duration';
