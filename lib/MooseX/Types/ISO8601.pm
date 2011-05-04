@@ -63,19 +63,22 @@ subtype ISO8601DateTimeDurationStr,
 
 {
     my %coerce = (
-        ISO8601TimeDurationStr, 'PT%02HH%02MM%02SS',
+        ISO8601TimeDurationStr, 'PT%02HH%02MM%02S.%06NS',
         ISO8601DateDurationStr, 'P%02YY%02mM%02dD',
-        ISO8601DateTimeDurationStr, 'P%02YY%02mM%02dDT%02HH%02MM%02SS',
+        ISO8601DateTimeDurationStr, 'P%02YY%02mM%02dDT%02HH%02MM%02S.%06NS',
     );
 
     foreach my $type_name (keys %coerce) {
 
         my $code = sub {
-            DateTime::Format::Duration->new(
+            my $str = DateTime::Format::Duration->new(
                 normalize => 1,
                 pattern   => $coerce{$type_name},
             )
             ->format_duration( shift );
+            # Remove fractional seconds
+            $str =~ s/\.0+S$/S/;
+            return $str;
         };
 
         coerce $type_name,

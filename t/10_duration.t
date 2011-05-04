@@ -66,8 +66,8 @@ use MooseX::Types::DateTime qw/ Duration /;
 ok !is_ISO8601TimeDurationStr("PT");
 
 foreach my $tp (
-        ['PT0H15M.507S', 'PT00H15M00S'], # Note pairs, as we normalise whilst
-                                         # roundtripping..
+        ['PT0H15M.507S', 'PT00H15M00.507000S'], # Note pairs, as we normalise whilst
+                                                # roundtripping..
         ['PT4M10S','PT00H04M10S'],
         ['PT51S', 'PT00H00M51S'],
     ) {
@@ -88,9 +88,9 @@ ok !is_ISO8601DateTimeDurationStr("P");
 ok !is_ISO8601DateTimeDurationStr("PT");
 
 foreach my $tp (
-        ['P00Y08M02DT0H15M.507S', 'P00Y08M02DT00H15M00S'], # XXX we lose fractional seconds.
-        ['P00Y08M02DT0H15M,507S', 'P00Y08M02DT00H15M00S'],
-        ['P00Y08M03DT0H15M,507S', 'P00Y08M03DT00H15M00S'],
+        ['P00Y08M02DT0H15M.507S', 'P00Y08M02DT00H15M00.507000S'],
+        ['P00Y08M02DT0H15M,507S', 'P00Y08M02DT00H15M00.507000S'],
+        ['P00Y08M03DT0H15M,507S', 'P00Y08M03DT00H15M00.507000S'],
         ['PT01S', 'P00Y00M00DT00H00M01S'],
     ) {
     my $t = $tp->[0];
