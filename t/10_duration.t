@@ -43,14 +43,14 @@ lives_ok {
 lives_ok {
     my $i = MyClass->new(
         time_duration => 60,
-        date_duration => 60000000000,
-        datetime_duration => 60000000000,
+        date_duration => 259200,
+        datetime_duration => 262800,
     );
     is($i->time_duration, 'PT00H01M00S',
         'Time duration number coerced');
-    is($i->date_duration, 'P00Y00M02D',
+    is($i->date_duration, 'P00Y00M03D',
         'Date duration number coerced');
-    is($i->datetime_duration, 'P00Y00M02DT10H40M00S',
+    is($i->datetime_duration, 'P00Y00M03DT01H00M00S',
         'DateTime duration number coerced');
 } 'Create with Numeric duration';
 
