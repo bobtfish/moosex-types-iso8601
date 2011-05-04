@@ -76,7 +76,8 @@ subtype ISO8601DateTimeDurationStr,
                 pattern   => $coerce{$type_name},
             )
             ->format_duration( shift );
-            # Remove fractional seconds
+
+            # Remove fractional seconds if there aren't any.
             $str =~ s/\.0+S$/S/;
             return $str;
         };
