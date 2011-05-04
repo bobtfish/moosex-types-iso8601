@@ -1,5 +1,6 @@
   - Durations can omit components, as per standard.
   - Date durations do not contain a "T" character.
+  - Output fractional seconds.
 
 0.07 Mon Sept  7 16:28:00 BST 2010
   - Really fix so that it works in all cases.
