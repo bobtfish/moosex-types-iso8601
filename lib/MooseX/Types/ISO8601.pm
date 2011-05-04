@@ -56,10 +56,10 @@ subtype ISO8601DateDurationStr,
     as Str,
     where { grep { looks_like_number($_) } /$dateduration_re/ };
 
-my $datetimeduration_re = qr/^P(\d+)Y(\d{1,2})M(\d{1,2})DT(\d{1,2})H(\d{1,2})M(\d{0,2})(?:(?:\.|,)(\d+))?S$/;
+my $datetimeduration_re = qr/^P(?:(\d+)Y)?(?:(\d{1,2})M)?(?:(\d{1,2})D)?(?:T(?:(\d{1,2})H)?(?:(\d{1,2})M)?(?:(\d{0,2})(?:(?:\.|,)(\d+))?)S)?$/;
 subtype ISO8601DateTimeDurationStr,
     as Str,
-    where { /$datetimeduration_re/ };
+    where { grep { looks_like_number($_) } /$datetimeduration_re/ };
 
 {
     my %coerce = (
@@ -118,13 +118,10 @@ subtype ISO8601DateTimeDurationStr,
     coerce Duration,
         from ISO8601DateTimeDurationStr,
             via {
-                my @fields = $_ =~ /$datetimeduration_re/;
+                my @fields = map { $_ || 0 } $_ =~ /$datetimeduration_re/;
                 if ($fields[6]) {
                     my $missing = 9 - length($fields[6]);
                     $fields[6] .= "0" x $missing;
-                }
-                else {
-                    $fields[6] = 0;
                 }
                 DateTime::Duration->new( zip @datetimefields, @fields );
             },
