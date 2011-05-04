@@ -95,7 +95,6 @@ foreach my $tp (
     ) {
     my $t = $tp->[0];
     my $ret = $tp->[1] || $t;
-    ok !is_ISO8601TimeDurationStr($t), $t . ' is no an ISO8601TimeDurationStr';
     ok is_ISO8601DateTimeDurationStr($t), $t . ' is an ISO8601DateTimeDurationStr';
     ok !is_ISO8601DateDurationStr($t), $t . ' is not an ISO8601DateDurationStr';
     my $dt = to_Duration($t);
@@ -103,6 +102,8 @@ foreach my $tp (
     isa_ok $dt, 'DateTime::Duration';
     is to_ISO8601DateTimeDurationStr($dt), $ret, $t . ' round trips';
 }
+
+ok !is_ISO8601TimeDurationStr('P00Y08M02DT0H15M.507S'), 'has date elements, and so not a time';
 
 # Date durations
 
