@@ -286,6 +286,15 @@ http://dotat.at/tmp/ISO_8601-2004_E.pdf
 
 =back
 
+=head1 FEATURES
+
+=head2 Fractional seconds
+
+If provided, the number of seconds in time types is represented to microsecond
+accuracy. A full stop character is used as the decimal seperator, which is
+allowed, but deprecated in preference to the comma character in
+I<ISO 8601:2004>.
+
 =head1 BUGS
 
 Probably full of them, patches are very welcome.
