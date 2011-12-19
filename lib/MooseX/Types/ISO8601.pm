@@ -303,11 +303,22 @@ Specifically missing features:
 
 =over
 
-=item No timezone support - all times are assumed UTC
+=item *
 
-=item No week number type
+No timezone support - all times are assumed UTC
 
-=item Tests are rubbish.
+=item *
+
+No week number type
+
+=item *
+
+"Basic format", which lacks seperator characters, is not supported for
+reading or writing.
+
+=item *
+
+Tests are rubbish.
 
 =back
 
