@@ -1,6 +1,12 @@
 use strict;
 use warnings;
 
+use MooseX::Types::ISO8601 qw/
+    ISO8601DateStr
+    ISO8601TimeStr
+    ISO8601DateTimeStr
+/;
+
 {
     package My::DateClass;
     use Moose;
@@ -49,5 +55,21 @@ lives_ok {
     like( $i->datetime, qr/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, 'Datetime mangled' );
 } 'Date class instance with coercion';
 
-done_testing;
+{
+    local $TODO = "UTC offsets are not yet supported";
+    ok is_ISO8601DateTimeStr('2011-12-19T15:03:56+01:00');
+    ok is_ISO8601DateTimeStr('2011-12-19T15:03:56-01:00');
+    ok is_ISO8601DateTimeStr('2011-12-19T15:03:56+01:30');
+    ok is_ISO8601DateTimeStr('2011-12-19T15:03:56-01:30');
+    ok is_ISO8601DateTimeStr('2011-12-19T15:03:56+01');
+    ok is_ISO8601DateTimeStr('2011-12-19T15:03:56-01');
 
+    ok is_ISO8601DateTimeStr('15:03:56+01:00');
+    ok is_ISO8601DateTimeStr('15:03:56-01:00');
+    ok is_ISO8601DateTimeStr('15:03:56+01:30');
+    ok is_ISO8601DateTimeStr('15:03:56-01:30');
+    ok is_ISO8601DateTimeStr('15:03:56+01');
+    ok is_ISO8601DateTimeStr('15:03:56-01');
+}
+
+done_testing;
