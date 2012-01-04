@@ -110,7 +110,7 @@ subtype ISO8601DateTimeDurationStr,
         from DateTime,
             via { $coerce{$type_name}->($_) },
         from Num,
-            via { $coerce{$type_name}->(DateTime->from_epoch( epoch => $_ )) };
+            via { $coerce{$type_name}->(DT->from_epoch( epoch => $_ )) };
 
         if ($MYSQL) {
             coerce $type_name, from MySQLDateTime(),
