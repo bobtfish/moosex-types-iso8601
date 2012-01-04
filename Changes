@@ -1,3 +1,6 @@
+  - Coerce to DateTime objects.
+  - DateTimes must be in UTC now enforced.
+
 0.08 Fri Dec 16 16:23:31 GMT 2011
   - Durations can omit components, as per standard.
   - Date durations do not contain a "T" character.
