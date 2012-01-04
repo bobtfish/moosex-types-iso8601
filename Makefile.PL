@@ -7,6 +7,7 @@ all_from 'lib/MooseX/Types/ISO8601.pm';
 
 license 'perl';
 
+requires 'aliased';
 requires 'Moose' => '0.79';
 requires 'MooseX::Types' => '0.10';
 requires 'MooseX::Types::DateTime' => '0.03';
