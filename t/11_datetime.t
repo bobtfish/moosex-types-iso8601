@@ -99,6 +99,11 @@ lives_ok {
     $datetime->set_time_zone('UTC');
     lives_ok { to_ISO8601DateTimeStr($datetime) };
 }
+{
+    # You must say Zulu, or we cannot make sense of the date.
+    ok  is_ISO8601DateTimeStr('2011-12-19T15:03:56Z');
+    ok !is_ISO8601DateTimeStr('2011-12-19T15:03:56');
+}
 
 {
     local $TODO = "UTC offsets are not yet supported";
