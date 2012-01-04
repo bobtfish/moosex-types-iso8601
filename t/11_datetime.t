@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 
+use MooseX::Types::DateTime;
 use MooseX::Types::ISO8601 qw/
     ISO8601DateStr
     ISO8601TimeStr
@@ -44,7 +45,7 @@ lives_ok {
     is( $i->datetime, '2009-01-01T12:34:29Z', 'Datetime unmangled' );
 } 'Date class instance';
 
-lives_ok {
+#lives_ok {
     my $date = DateTime->now;
     my $i = My::DateClass->new(
         map { $_ => $date } qw/date time datetime/
@@ -53,7 +54,35 @@ lives_ok {
     like( $i->date, qr/\d{4}-\d{2}-\d{2}/, 'Date mangled' );
     like( $i->time, qr/\d{2}:\d{2}Z/, 'Time mangled' );
     like( $i->datetime, qr/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, 'Datetime mangled' );
-} 'Date class instance with coercion';
+#} 'Date class instance with coercion';
+
+{
+    my $datetime = MooseX::Types::DateTime::to_DateTime('2011-01-04T18:14:15.1234Z');
+    isa_ok($datetime, 'DateTime');
+    is($datetime->year, 2011);
+    is($datetime->month, 1);
+    is($datetime->day, 4);
+    is($datetime->hour, 18);
+    is($datetime->minute, 14);
+    is($datetime->second, 15);
+    is($datetime->nanosecond, 123400000);
+
+    my $date = MooseX::Types::DateTime::to_DateTime('2011-01-04');
+    isa_ok($date, 'DateTime');
+    is($date->year, 2011);
+    is($date->month, 1);
+    is($date->day, 4);
+
+# Cannot work as DateTime requires a year
+#    my $time = MooseX::Types::DateTime::to_DateTime('18:14:15.1234Z');
+#    isa_ok($time, 'DateTime');
+#    is($time->hour, 18);
+#    is($time->minute, 14);
+#    is($time->second, 12);
+#    is($time->nanosecond, 123400000);
+
+
+}
 
 {
     local $TODO = "UTC offsets are not yet supported";

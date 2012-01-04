@@ -1,12 +1,13 @@
 package MooseX::Types::ISO8601;
 use Moose ();
-use DateTime;
+use aliased DateTime => 'DT';
 use DateTime::Format::Duration;
 use MooseX::Types::DateTime qw(Duration DateTime);
 use MooseX::Types::Moose qw/Str Num/;
 use List::MoreUtils qw/ zip /;
 use Scalar::Util qw/ looks_like_number /;
 use Try::Tiny qw/try/;
+
 our $MYSQL;
 BEGIN {
     $MYSQL = 0;
@@ -28,17 +29,20 @@ use MooseX::Types -declare => [qw(
     ISO8601DateTimeDurationStr
 )];
 
+my $date_re = qr/^(\d{4})-(\d{2})-(\d{2})$/;
 subtype ISO8601DateStr,
     as Str,
-    where { /^\d{4}-\d{2}-\d{2}$/ };
+    where { /$date_re/ };
 
+my $time_re = qr/^(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
 subtype ISO8601TimeStr,
     as Str,
-    where { /^\d{2}:\d{2}:\d{2}Z?$/ };
+    where { /$time_re/ };
 
+my $datetime_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
 subtype ISO8601DateTimeStr,
     as Str,
-    where { /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z?$/ };
+    where { /$datetime_re/ };
 
 
 # TODO: According to ISO 8601:2004(E), the lowest order components may be
@@ -142,6 +146,38 @@ subtype ISO8601DateTimeDurationStr,
                     $fields[3] .= "0" x $missing;
                 }
                 DateTime::Duration->new( zip @timefields, @fields );
+            };
+}
+
+{
+    my @datefields = qw/ year month day /;
+    my @timefields = qw/ hour minute second nanosecond /;
+    my @datetimefields = (@datefields, @timefields);
+    coerce DateTime,
+        from ISO8601DateTimeStr,
+            via {
+                my @fields = map { $_ || 0 } $_ =~ /$datetime_re/;
+                if ($fields[6]) {
+                    my $missing = 9 - length($fields[6]);
+                    $fields[6] .= "0" x $missing;
+                }
+                DT->new( zip(@datetimefields, @fields), time_zone => 'UTC' );
+            },
+        from ISO8601DateStr,
+            via {
+                my @fields = map { $_ || 0 } $_ =~ /$date_re/;
+                DT->new( zip @datefields, @fields );
+            },
+
+        # XXX This coercion does not work as DateTime requires a year.
+        from ISO8601TimeStr,
+            via {
+                my @fields = map { $_ || 0 } $_ =~ /$time_re/;
+                if ($fields[3]) {
+                    my $missing = 9 - length($fields[3]);
+                    $fields[3] .= "0" x $missing;
+                }
+                DT->new( zip(@timefields, @fields), 'time_zone' => 'UTC' );
             };
 }
 
