@@ -39,7 +39,7 @@ subtype ISO8601TimeStr,
     as Str,
     where { /$time_re/ };
 
-my $datetime_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
+my $datetime_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z$/;
 subtype ISO8601DateTimeStr,
     as Str,
     where { /$datetime_re/ };
@@ -99,9 +99,9 @@ subtype ISO8601DateTimeDurationStr,
 
 {
     my %coerce = (
-        ISO8601TimeStr, sub { $_[0]->hms(':') . 'Z' },
+        ISO8601TimeStr, sub { die "cannot coerce non-UTC time" if ($_[0]->offset!=0); $_[0]->hms(':') . 'Z' },
         ISO8601DateStr, sub { $_[0]->ymd('-') },
-        ISO8601DateTimeStr, sub { $_[0]->ymd('-') . 'T' . $_[0]->hms(':') . 'Z' },
+        ISO8601DateTimeStr, sub { die "cannot coerce non-UTC time" if ($_[0]->offset!=0); $_[0]->ymd('-') . 'T' . $_[0]->hms(':') . 'Z' },
     );
 
     foreach my $type_name (keys %coerce) {
