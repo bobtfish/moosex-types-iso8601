@@ -85,6 +85,22 @@ lives_ok {
 }
 
 {
+    my $datetime = DateTime->new(
+        year => 2011,
+        month => 1,
+        day => 1,
+        hour => 0,
+        minute => 0,
+        second => 0,
+        time_zone => 'Asia/Taipei'
+    );
+    dies_ok { to_ISO8601DateTimeStr($datetime) };
+
+    $datetime->set_time_zone('UTC');
+    lives_ok { to_ISO8601DateTimeStr($datetime) };
+}
+
+{
     local $TODO = "UTC offsets are not yet supported";
     ok is_ISO8601DateTimeStr('2011-12-19T15:03:56+01:00');
     ok is_ISO8601DateTimeStr('2011-12-19T15:03:56-01:00');
