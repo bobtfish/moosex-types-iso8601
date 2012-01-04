@@ -1,3 +1,4 @@
+0.09 Fri Jan  4 19:16:21 GMT 2011
   - Coerce to DateTime objects.
   - DateTimes must be in UTC now enforced.
 
