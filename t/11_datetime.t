@@ -122,4 +122,9 @@ lives_ok {
     ok is_ISO8601DateTimeStr('15:03:56-01');
 }
 
+{
+    is(to_ISO8601DateTimeStr(5), '1970-01-01T00:00:05Z');
+    is_ISO8601DateTimeStr(to_ISO8601DateTimeStr(time));
+}
+
 done_testing;
