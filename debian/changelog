@@ -1,3 +1,9 @@
+libmoosex-types-iso8601-perl (0.010-1) lucid; urgency=low
+
+  * New upstream version.
+
+ -- Dave Lambley <davel@state51.co.uk>  Thu, 05 Jan 2012 10:40:40 +0000
+
 libmoosex-types-iso8601-perl (0.07-1-state51-1) hardy; urgency=low
 
   * Better handle missing components.

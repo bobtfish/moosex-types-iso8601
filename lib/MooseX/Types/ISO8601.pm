@@ -18,7 +18,7 @@ BEGIN {
 }
 use namespace::autoclean;
 
-our $VERSION = "0.09";
+our $VERSION = "0.010";
 
 use MooseX::Types -declare => [qw(
     ISO8601DateStr
