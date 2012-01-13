@@ -120,6 +120,21 @@ subtype ISO8601DateTimeDurationStr,
 }
 
 {
+    my %coerce = (
+        ISO8601TimeStr, sub { $_ =~ s/^(\d\d)(\d\d)(\d\d([\.\,]\d+)?)(([+-]00\:?(00)?)|Z)$/${4}:${5}:${6}Z/; return $_; },
+        ISO8601DateStr, sub { $_ =~ s/^(\d{4})(\d\d)(\d\d)$/${1}-${2}-${3}/; return $_; },
+        ISO8601DateTimeStr, sub { $_ =~ s/^(\d{4})\-?(\d\d)\-?(\d\d)T(\d\d)\:?(\d\d)\:?(\d\d([\.\,]\d+)?)(([+-]00\:?(00)?)|Z)$/${1}-${2}-${3}T${4}:${5}:${6}Z/; return $_; },
+    );
+
+    foreach my $type_name (keys %coerce) {
+
+        coerce $type_name,
+        from Str,
+            via { $coerce{$type_name}->($_) },
+    }
+}
+
+{
     my @datefields = qw/ years months days /;
     my @timefields = qw/ hours minutes seconds nanoseconds /;
     my @datetimefields = (@datefields, @timefields);
