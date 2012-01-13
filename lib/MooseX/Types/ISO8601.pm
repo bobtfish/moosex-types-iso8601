@@ -252,6 +252,34 @@ The number is treated as a time in seconds since the unix epoch
 
 The duration represented as a L<DateTime> object.
 
+=item C< Str >
+
+Non-expanded date and time string representations.
+
+e.g.:-
+
+20120113         => 2012-01-13
+170500Z          => 17:05:00Z
+20120113T170500Z => 2012-01-13T17:05:00Z
+
+Representations of UTC time zone (only an offset of zero is supported)
+
+e.g.:-
+
+17:05:00+00:00 => 17:05:00Z
+17:05:00+00    => 17:05:00Z
+170500+0000    => 17:05:00Z
+2012-01-13T17:05:00+00:00 => 2012-01-13T17:05:00Z
+2012-01-13T17:05:00+00 => 2012-01-13T17:05:00Z
+20120113T170500+0000 => 2012-01-13T17:05:00Z
+
+Also supports non-standards mixing of expanded and non-expanded representations
+
+e.g.:-
+
+2012-01-13T170500Z => 2012-01-13T17:05:00Z
+20120113T17:05:00Z => 2012-01-13T17:05:00Z
+
 =back
 
 =head1 DURATION CONSTRAINTS
