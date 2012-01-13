@@ -83,6 +83,26 @@ lives_ok {
 
 
 }
+    foreach my $date qw( 2012-01-12 20120112 ) {
+        foreach my $time qw( 17:05:00 17:05:00.0001 17:05:00,0001 170500 170500,0001 170500.0001 ) {
+            foreach my $zone qw( +0000 +00:00 +00 Z ) {
+                ok is_ISO8601DateTimeStr( to_ISO8601DateTimeStr($date.'T'.$time.$zone) ), $date.'T'.$time.$zone;
+            }
+            ok !is_ISO8601DateTimeStr( to_ISO8601DateTimeStr($date.'T'.$time) ), $date.'T'.$time;
+        }
+    }
+    
+    foreach my $date qw( 2012-01-12 20120112 ) {
+        ok is_ISO8601DateTimeStr( to_ISO8601DateTimeStr($date) ), $date;
+    }
+    
+    foreach my $time qw( 17:05:00 17:05:00.0001 17:05:00,0001 170500 170500,0001 170500.0001 ) {
+        foreach my $zone qw( +0000 +00:00 +00 Z ) {
+            ok is_ISO8601DateTimeStr( to_ISO8601DateTimeStr($time.$zone) ), $time.$zone;
+        }
+        ok !is_ISO8601DateTimeStr( to_ISO8601DateTimeStr($time) ), $time;
+    }
+}
 
 {
     my $datetime = DateTime->new(
