@@ -1,3 +1,6 @@
+  - Generate date time strings with a full timezone, not just "Z".
+  - Additional coercions added. [Aaron Moses].
+
 0.10 Fri Jan  6 12:14:50 GMT 2011
   - Fix and test casting of epoch times.
 
