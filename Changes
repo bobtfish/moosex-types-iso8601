@@ -1,10 +1,11 @@
+0.11 Fri May 11 16:15:04 GMT 2012
   - Generate date time strings with a full timezone, not just "Z".
   - Additional coercions added. [Aaron Moses].
 
-0.10 Fri Jan  6 12:14:50 GMT 2011
+0.10 Fri Jan  6 12:14:50 GMT 2012
   - Fix and test casting of epoch times.
 
-0.09 Wed Jan  4 19:16:21 GMT 2011
+0.09 Wed Jan  4 19:16:21 GMT 2012
   - Coerce to DateTime objects.
   - DateTimes must be in UTC now enforced.
 
