@@ -438,9 +438,23 @@ Tests are rubbish.
 
 =head1 AUTHOR
 
-Tomas Doran (t0m) C<< <bobtfish@bobtfish.net> >>
+=over
+
+=item Tomas Doran (t0m) C<< <bobtfish@bobtfish.net> >>
+
+=item Dave Lambley C<< <davel@state51.co.uk> >>
+
+=back
 
 The development of this code was sponsored by my employer L<http://www.state51.co.uk>.
+
+=head2 Contributors
+
+=over
+
+=item Aaron Moses
+
+=back
 
 =head1 COPYRIGHT
 
