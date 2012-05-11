@@ -121,9 +121,23 @@ subtype ISO8601DateTimeDurationStr,
 
 {
     my %coerce = (
-        ISO8601TimeStr, sub { $_ =~ s/^(\d\d)\:?(\d\d)\:?(\d\d([\.\,]\d+)?)(([+-]00\:?(00)?)|Z)$/${1}:${2}:${3}Z/; return $_; },
-        ISO8601DateStr, sub { $_ =~ s/^(\d{4})\-?(\d\d)\-?(\d\d)$/${1}-${2}-${3}/; return $_; },
-        ISO8601DateTimeStr, sub { $_ =~ s/^(\d{4})\-?(\d\d)\-?(\d\d)T(\d\d)\:?(\d\d)\:?(\d\d([\.\,]\d+)?)(([+-]00\:?(00)?)|Z)$/${1}-${2}-${3}T${4}:${5}:${6}Z/; return $_; },
+        ISO8601TimeStr, sub {
+            $_ =~ s/^(\d\d) \:? (\d\d) \:? (\d\d([\.\,]\d+)?) (([+-]00\:?(00)?)|Z) $
+                    /${1}:${2}:${3}Z/x;
+            return $_;
+        },
+        ISO8601DateStr, sub {
+            $_ =~ s/^(\d{4}) \-? (\d\d) \-? (\d\d)$
+                    /${1}-${2}-${3}/x;
+            return $_;
+        },
+        ISO8601DateTimeStr, sub {
+            $_ =~ s/^(\d{4}) \-? (\d\d) \-? (\d\d)
+                    T(\d\d) \:? (\d\d) \:? (\d\d([\.\,]\d+)?)
+                    (([+-]00\:?(00)?)|Z)$
+                    /${1}-${2}-${3}T${4}:${5}:${6}Z/x;
+            return $_;
+        },
     );
 
     foreach my $type_name (keys %coerce) {
