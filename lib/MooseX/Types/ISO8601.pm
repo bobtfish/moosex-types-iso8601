@@ -272,6 +272,10 @@ An ISO8601 time string. E.g. C<< 12:06:34Z >>
 
 An ISO8601 combined datetime string. E.g. C<< 2009-06-11T12:06:34Z >>
 
+=head2 ISO8601DateTimeTZStr
+
+An ISO8601 combined datetime string with a fully specified timezone. E.g. C<< 2009-06-11T12:06:34+00:00 >>
+
 =head2 COERCIONS
 
 The date types will coerce from:
