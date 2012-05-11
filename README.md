@@ -19,7 +19,7 @@ MooseX::Types::ISO8601 - ISO8601 date and duration string type constraints and c
 
 # DESCRIPTION
 
-This module packages several [TypeConstraints](http://search.cpan.org/perldoc?Moose::Util::TypeConstraints) with
+This module packages several L<TypeConstraints|Moose::Util::TypeConstraints> with
 coercions for working with ISO8601 date strings and the DateTime suite of objects.
 
 # DATE CONSTRAINTS
@@ -36,6 +36,10 @@ An ISO8601 time string. E.g. `12:06:34Z`
 
 An ISO8601 combined datetime string. E.g. `2009-06-11T12:06:34Z`
 
+## ISO8601DateTimeTZStr
+
+An ISO8601 combined datetime string with a fully specified timezone. E.g. `2009-06-11T12:06:34+00:00`
+
 ## COERCIONS
 
 The date types will coerce from:
@@ -46,7 +50,7 @@ The number is treated as a time in seconds since the unix epoch
 
 - ` DateTime `
 
-The duration represented as a [DateTime](http://search.cpan.org/perldoc?DateTime) object.
+The duration represented as a [DateTime](http://search.cpan.org/search?mode=module&query=DateTime) object.
 
 - ` Str `
 
@@ -101,21 +105,32 @@ The number is treated as a time in seconds
 
 - ` DateTime::Duration `
 
-The duration represented as a [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration) object.
+The duration represented as a [DateTime::Duration](http://search.cpan.org/search?mode=module&query=DateTime::Duration) object.
 
 The duration types will coerce to:
 
 - ` Duration `
 
-A [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration), i.e. the ` Duration ` constraint from
-[MooseX::Types::DateTime](http://search.cpan.org/perldoc?MooseX::Types::DateTime).
+A [DateTime::Duration](http://search.cpan.org/search?mode=module&query=DateTime::Duration), i.e. the ` Duration ` constraint from
+[MooseX::Types::DateTime](http://search.cpan.org/search?mode=module&query=MooseX::Types::DateTime).
 
 # SEE ALSO
 
-- [MooseX::Types::DateTime](http://search.cpan.org/perldoc?MooseX::Types::DateTime)
-- [DateTime](http://search.cpan.org/perldoc?DateTime)
-- [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration)
-- [DateTime::Format::Duration](http://search.cpan.org/perldoc?DateTime::Format::Duration)
+- *
+
+[MooseX::Types::DateTime](http://search.cpan.org/search?mode=module&query=MooseX::Types::DateTime)
+
+- *
+
+[DateTime](http://search.cpan.org/search?mode=module&query=DateTime)
+
+- *
+
+[DateTime::Duration](http://search.cpan.org/search?mode=module&query=DateTime::Duration)
+
+- *
+
+[DateTime::Format::Duration](http://search.cpan.org/search?mode=module&query=DateTime::Format::Duration)
 
 # VERSION CONTROL
 
@@ -125,8 +140,13 @@ Patches are welcome.
 
 # SEE ALSO
 
-- http://en.wikipedia.org/wiki/ISO_8601
-- http://dotat.at/tmp/ISO_8601-2004_E.pdf
+- *
+
+http://en.wikipedia.org/wiki/ISO_8601
+
+- *
+
+http://dotat.at/tmp/ISO_8601-2004_E.pdf
 
 # FEATURES
 
@@ -143,17 +163,34 @@ Probably full of them, patches are very welcome.
 
 Specifically missing features:
 
-- No timezone support - all times are assumed UTC
-- No week number type
-- "Basic format", which lacks seperator characters, is not supported for
+- *
+
+No timezone support - all times are assumed UTC
+
+- *
+
+No week number type
+
+- *
+
+"Basic format", which lacks seperator characters, is not supported for
 reading or writing.
-- Tests are rubbish.
+
+- *
+
+Tests are rubbish.
 
 # AUTHOR
 
-Tomas Doran (t0m) `<bobtfish@bobtfish.net>`
+- Tomas Doran (t0m) `<bobtfish@bobtfish.net>`
 
-The development of this code was sponsored by my employer [http://www.state51.co.uk](http://www.state51.co.uk).
+- Dave Lambley `<davel@state51.co.uk>`
+
+The development of this code was sponsored by my employer <http://www.state51.co.uk>.
+
+## Contributors
+
+- Aaron Moses
 
 # COPYRIGHT
 
