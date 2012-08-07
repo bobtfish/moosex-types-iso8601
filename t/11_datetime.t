@@ -37,17 +37,20 @@ use Test::More;
 use Test::Fatal;
 use DateTime;
 
-is(exception {
-    my $i = My::DateClass->new(
-        date => '2009-01-01',
-        time => '12:34:29Z',
-        datetime => '2009-01-01T12:34:29Z',
-    );
-    is( $i->date, '2009-01-01', 'Date unmangled' );
-    is( $i->time, '12:34:29Z', 'Time unmangled' );
-    is( $i->datetime, '2009-01-01T12:34:29Z', 'Datetime unmangled' );
-},
-undef, 'Date class instance');
+foreach my $tz ('Z')
+{
+    is(exception {
+        my $i = My::DateClass->new(
+            date => '2009-01-01',
+            time => '12:34:29' . $tz,
+            datetime => '2009-01-01T12:34:29' . $tz,
+        );
+        is( $i->date, '2009-01-01', 'Date unmangled' );
+        is( $i->time, '12:34:29' . $tz, 'Time unmangled' );
+        is( $i->datetime, '2009-01-01T12:34:29' . $tz, 'Datetime unmangled' );
+    },
+    undef, 'Date class instance');
+}
 
 is(exception {
     my $date = DateTime->now;
@@ -61,6 +64,7 @@ is(exception {
 },
 undef, 'Date class instance with coercion');
 
+foreach my $tz ('Z')
 {
     my $datetime = MooseX::Types::DateTime::to_DateTime('2011-01-04T18:14:15.1234Z');
     isa_ok($datetime, 'DateTime');
