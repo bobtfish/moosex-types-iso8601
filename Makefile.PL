@@ -8,14 +8,13 @@ all_from 'lib/MooseX/Types/ISO8601.pm';
 license 'perl';
 
 requires 'aliased';
-requires 'Moose' => '0.79';
 requires 'MooseX::Types' => '0.10';
 requires 'MooseX::Types::DateTime' => '0.03';
 requires 'DateTime' => '0.41';
 requires 'DateTime::Format::Duration' => '1.03';
 requires 'namespace::autoclean' => '0.05';
 requires 'List::MoreUtils';
-requires 'Try::Tiny';
+requires 'Class::Load';
 requires 'Scalar::Util';
 
 test_requires 'Test::More' => '0.88';

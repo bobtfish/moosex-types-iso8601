@@ -1,17 +1,20 @@
 package MooseX::Types::ISO8601;
-use Moose ();
+
+use strict;
+use warnings;
+
 use aliased DateTime => 'DT';
 use DateTime::Format::Duration;
 use MooseX::Types::DateTime qw(Duration DateTime);
 use MooseX::Types::Moose qw/Str Num/;
 use List::MoreUtils qw/ zip /;
 use Scalar::Util qw/ looks_like_number /;
-use Try::Tiny qw/try/;
+use Class::Load 'try_load_class';
 
 our $MYSQL;
 BEGIN {
     $MYSQL = 0;
-    if (try { Class::MOP::load_class('MooseX::Types::DateTime::MySQL') }) {
+    if (try_load_class 'MooseX::Types::DateTime::MySQL') {
             MooseX::Types::DateTime::MySQL->import(qw/ MySQLDateTime /);
             $MYSQL = 1;
     }
