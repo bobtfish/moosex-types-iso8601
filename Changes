@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.12      2012-08-07 14:08:37 PDT-0700 (Karen Etheridge)
   - converted uses of Test::Exception to Test::Fatal
   - trailing 'Z' to indicate timezone is now optional, matching the official
     ISO8601 specification (RT#78753)
