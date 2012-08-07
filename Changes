@@ -1,4 +1,6 @@
   - converted uses of Test::Exception to Test::Fatal
+  - trailing 'Z' to indicate timezone is now optional, matching the official
+    ISO8601 specification (RT#78753)
 
 0.10 Fri Jan  6 12:14:50 GMT 2011
   - Fix and test casting of epoch times.
