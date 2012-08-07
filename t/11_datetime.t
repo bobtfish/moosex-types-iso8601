@@ -8,6 +8,10 @@ use MooseX::Types::ISO8601 qw/
     ISO8601DateTimeStr
 /;
 
+# TODO: instead of relying on Moose attributes, just call ->check,
+# ->assert_coerce etc on the type object directly (see
+# Moose::Meta::TypeConstraint for the available API).
+
 {
     package My::DateClass;
     use Moose;
