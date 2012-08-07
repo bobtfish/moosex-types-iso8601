@@ -37,7 +37,7 @@ use Test::More;
 use Test::Fatal;
 use DateTime;
 
-foreach my $tz ('Z')
+foreach my $tz ('', 'Z')
 {
     is(exception {
         my $i = My::DateClass->new(
@@ -64,7 +64,7 @@ is(exception {
 },
 undef, 'Date class instance with coercion');
 
-foreach my $tz ('Z')
+foreach my $tz ('', 'Z')
 {
     my $datetime = MooseX::Types::DateTime::to_DateTime('2011-01-04T18:14:15.1234Z');
     isa_ok($datetime, 'DateTime');
@@ -101,7 +101,6 @@ foreach my $tz ('Z')
             foreach my $zone (qw( +0000 +00:00 +00 Z )) {
                 ok is_ISO8601DateTimeStr( to_ISO8601DateTimeStr($date.'T'.$time.$zone) ), 'coercing '.$date.'T'.$time.$zone;
             }
-            ok !is_ISO8601DateTimeStr( to_ISO8601DateTimeStr($date.'T'.$time) ), 'coercing '.$date.'T'.$time;
         }
     }
 
@@ -130,11 +129,6 @@ foreach my $tz ('Z')
 
     $datetime->set_time_zone('UTC');
     is(exception { to_ISO8601DateTimeStr($datetime) }, undef);
-}
-{
-    # You must say Zulu, or we cannot make sense of the date.
-    ok  is_ISO8601DateTimeStr('2011-12-19T15:03:56Z');
-    ok !is_ISO8601DateTimeStr('2011-12-19T15:03:56');
 }
 
 {
