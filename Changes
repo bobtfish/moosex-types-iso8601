@@ -6,46 +6,46 @@ Revision history for {{$dist->name}}
     ISO8601 specification (RT#78753)
   - converted dist to Dist::Zilla
 
-0.11 Fri May 11 16:15:04 GMT 2012
+0.11      2012-05-11T16:15:04Z
   - Generate date time strings with a full timezone, not just "Z".
   - Additional coercions added. [Aaron Moses].
 
-0.10 Fri Jan  6 12:14:50 GMT 2012
+0.10      2012-01-06T12:14:50Z
   - Fix and test casting of epoch times.
 
-0.09 Wed Jan  4 19:16:21 GMT 2012
+0.09      2012-01-04T19:16:21Z
   - Coerce to DateTime objects.
   - DateTimes must be in UTC now enforced.
 
-0.08 Fri Dec 16 16:23:31 GMT 2011
+0.08      2011-12-16 16:23:31Z
   - Durations can omit components, as per standard.
   - Date durations do not contain a "T" character.
   - Output fractional seconds.
 
-0.07 Mon Sept  7 16:28:00 BST 2010
+0.07      2010-09-07 16:28:00 BST+0100
   - Really fix so that it works in all cases.
 
-0.06 Mon Sept  6 15:44:00 BST 2010
+0.06      2010-09-06 15:44:00 BST+0100
   - Fix so that it works wihtout MooseX::Types::DateTime::MySQL installed.
 
-0.05 Mon Sept  6 15:16:00 BST 2010
+0.05      2010-09-06 15:16:00 BST+0100
   - Add support for coercing to and from MooseX::Types::DateTime::MySQL
 
-0.04 Sun Aug 15 18:23:00 BST 2010
+0.04      2010-08-15 18:23:00 BST+0100
   - Fix tests on perls compiled with uselongdoubles (RT#60356)
 
-0.03 Fri Aug 13 11:15:00 BST 2010
+0.03      2010-08-13 11:15:00 BST+0100
   - See also to the ISO8601 wiki page.
   - Added fractional times and tests to Durations.
   - Added coercion from Durations to DateTime objects
   - Deal better with duration cases found in the spec
     and real world by dealing with optionally empty hours.
 
-0.02 Fri Oct  9 11:00:55 BST 2009
+0.02      2009-10-09 11:00:55 BST+0100
   - Fixed time types.
   - Added coercions for the time types.
   - Documentation improvements
 
-0.01 Fri Jun 12 12:42:29 BST 2009
+0.01      2009-06-12 12:42:29 BST+0100
   - Initial version.
 

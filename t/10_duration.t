@@ -22,7 +22,7 @@ use Test::Fatal;
             [date_duration => ISO8601DateDurationStr],
             [datetime_duration => ISO8601DateTimeDurationStr],
     ) {
-        has $attr->[0] => ( 
+        has $attr->[0] => (
             isa => $attr->[1], coerce => 1, required => 1, is => 'ro'
         );
     }
