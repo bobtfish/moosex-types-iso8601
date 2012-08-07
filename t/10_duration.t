@@ -3,6 +3,10 @@ use warnings;
 use Test::More;
 use Test::Exception;
 
+# TODO: instead of relying on Moose attributes, just call ->check,
+# ->assert_coerce etc on the type object directly (see
+# Moose::Meta::TypeConstraint for the available API).
+
 {
     package MyClass;
     use Moose;
