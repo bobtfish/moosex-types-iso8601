@@ -39,7 +39,7 @@ subtype ISO8601TimeStr,
     as Str,
     where { /$time_re/ };
 
-my $datetime_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z$/;
+my $datetime_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
 subtype ISO8601DateTimeStr,
     as Str,
     where { /$datetime_re/ };
