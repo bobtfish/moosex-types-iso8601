@@ -1,8 +1,8 @@
 use strict;
 use warnings;
 use Test::More;
-plan skip_all => "Needs MooseX::Types::DateTime::MySQL"
-    unless eval { require MooseX::Types::DateTime::MySQL };
+
+use Test::Requires 'MooseX::Types::DateTime::MySQL';
 
 use MooseX::Types::ISO8601 qw/
     ISO8601DateStr
