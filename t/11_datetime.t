@@ -75,12 +75,14 @@ foreach my $tz ('Z')
     is($datetime->minute, 14);
     is($datetime->second, 15);
     is($datetime->nanosecond, 123400000);
+    is($datetime->time_zone->name, 'UTC', 'Z -> UTC');
 
     my $date = MooseX::Types::DateTime::to_DateTime('2011-01-04');
     isa_ok($date, 'DateTime');
     is($date->year, 2011);
     is($date->month, 1);
     is($date->day, 4);
+    is($date->time_zone->name, 'floating', 'no time zome -> floating');
 
 # Cannot work as DateTime requires a year
 #    my $time = MooseX::Types::DateTime::to_DateTime('18:14:15.1234Z');
