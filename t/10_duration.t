@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-use Test::Exception;
+use Test::Fatal;
 
 # TODO: instead of relying on Moose attributes, just call ->check,
 # ->assert_coerce etc on the type object directly (see
@@ -28,7 +28,7 @@ use Test::Exception;
     }
 }
 
-lives_ok {
+is(exception {
     my ($time_duration, $date_duration, $datetime_duration)
         = ('PT00H00M00S', 'P01Y01M01D', 'P01Y01M01DT00H00M00S');
     my $i = MyClass->new(
@@ -42,9 +42,9 @@ lives_ok {
         'Date duration string unmangled');
     is($i->datetime_duration, $datetime_duration,
         'DateTime duration string unmangled');
-} 'Create with string duration';
+}, undef, 'Create with string duration');
 
-lives_ok {
+is(exception {
     my $i = MyClass->new(
         time_duration => 60,
         date_duration => 259200,
@@ -56,7 +56,7 @@ lives_ok {
         'Date duration number coerced');
     is($i->datetime_duration, 'P00Y00M03DT01H00M00S',
         'DateTime duration number coerced');
-} 'Create with Numeric duration';
+}, undef, 'Create with Numeric duration');
 
 use MooseX::Types::ISO8601 qw/
         ISO8601TimeDurationStr

@@ -19,7 +19,7 @@ requires 'Try::Tiny';
 requires 'Scalar::Util';
 
 test_requires 'Test::More' => '0.88';
-test_requires 'Test::Exception';
+test_requires 'Test::Fatal';
 test_requires 'Test::Requires';
 
 resources repository => 'git://github.com/bobtfish/moosex-types-iso8601.git';

@@ -1,3 +1,5 @@
+  - converted uses of Test::Exception to Test::Fatal
+
 0.11 Fri May 11 16:15:04 GMT 2012
   - Generate date time strings with a full timezone, not just "Z".
   - Additional coercions added. [Aaron Moses].
