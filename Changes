@@ -1,3 +1,5 @@
+  - converted uses of Test::Exception to Test::Fatal
+
 0.10 Fri Jan  6 12:14:50 GMT 2011
   - Fix and test casting of epoch times.
 
