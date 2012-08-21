@@ -335,7 +335,7 @@ An ISO8601 time duration string. E.g. C<< PT01H01M01S >>
 
 =head2 ISO8601DateTimeDurationStr
 
-An ISO8601 comboined date and time duration string. E.g. C<< P01Y01M01DT01H01M01S >>
+An ISO8601 combined date and time duration string. E.g. C<< P01Y01M01DT01H01M01S >>
 
 =head2 COERCIONS
 
