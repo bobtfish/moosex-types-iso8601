@@ -364,48 +364,6 @@ L<MooseX::Types::DateTime>.
 
 =back
 
-=head1 SEE ALSO
-
-=over
-
-=item *
-
-L<MooseX::Types::DateTime>
-
-=item *
-
-L<DateTime>
-
-=item *
-
-L<DateTime::Duration>
-
-=item *
-
-L<DateTime::Format::Duration>
-
-=back
-
-=head1 VERSION CONTROL
-
-    http://github.com/bobtfish/moosex-types-iso8601/tree/master
-
-Patches are welcome.
-
-=head1 SEE ALSO
-
-=over
-
-=item *
-
-http://en.wikipedia.org/wiki/ISO_8601
-
-=item *
-
-http://dotat.at/tmp/ISO_8601-2004_E.pdf
-
-=back
-
 =head1 FEATURES
 
 =head2 Fractional seconds
@@ -441,6 +399,42 @@ reading or writing.
 Tests are rubbish.
 
 =back
+
+=head1 SEE ALSO
+
+=over
+
+=item *
+
+L<MooseX::Types::DateTime>
+
+=item *
+
+L<DateTime>
+
+=item *
+
+L<DateTime::Duration>
+
+=item *
+
+L<DateTime::Format::Duration>
+
+=item *
+
+L<http://en.wikipedia.org/wiki/ISO_8601>
+
+=item *
+
+L<http://dotat.at/tmp/ISO_8601-2004_E.pdf>
+
+=back
+
+=head1 VERSION CONTROL
+
+    http://github.com/bobtfish/moosex-types-iso8601/tree/master
+
+Patches are welcome.
 
 =head1 AUTHOR
 
