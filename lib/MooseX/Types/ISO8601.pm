@@ -321,6 +321,8 @@ e.g.:-
 2012-01-13T170500Z => 2012-01-13T17:05:00Z
 20120113T17:05:00Z => 2012-01-13T17:05:00Z
 
+In addition, there are coercions from these string types to L<DateTime>.
+
 =back
 
 =head1 DURATION CONSTRAINTS

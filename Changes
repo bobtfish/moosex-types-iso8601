@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - documentation added for coercions from datetime string types to
+            DateTime.
 
 0.12      2012-08-07 14:08:37 PDT-0700 (Karen Etheridge)
           - converted uses of Test::Exception to Test::Fatal
