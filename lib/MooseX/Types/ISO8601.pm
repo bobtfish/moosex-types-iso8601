@@ -198,6 +198,8 @@ subtype ISO8601DateTimeDurationStr,
     coerce DateTime,
         from ISO8601DateTimeStr,
             via {
+                # TODO: surely we should be using
+                # DateTime::Format::ISO8601->parse_datetime for this
                 my @fields = map { $_ || 0 } $_ =~ /$datetime_re/;
                 if ($fields[6]) {
                     my $missing = 9 - length($fields[6]);
