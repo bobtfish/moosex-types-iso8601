@@ -373,7 +373,7 @@ L<MooseX::Types::DateTime>.
 =head2 Fractional seconds
 
 If provided, the number of seconds in time types is represented to microsecond
-accuracy. A full stop character is used as the decimal seperator, which is
+accuracy. A full stop character is used as the decimal separator, which is
 allowed, but deprecated in preference to the comma character in
 I<ISO 8601:2004>.
 
@@ -395,7 +395,7 @@ No week number type
 
 =item *
 
-"Basic format", which lacks seperator characters, is not supported for
+"Basic format", which lacks separator characters, is not supported for
 reading or writing.
 
 =item *
