@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - support more than two digits of hours in durations.  (Partial
+            support of page 27, paragraph two of ISO 8601:2004(E) ).
           - documentation added for coercions from datetime string types to
             DateTime.
           - spelling patch applied from debian (RT#81262, thanks Jonas

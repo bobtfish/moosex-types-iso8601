@@ -74,6 +74,7 @@ foreach my $tp (
                                                 # roundtripping..
         ['PT4M10S','PT00H04M10S'],
         ['PT51S', 'PT00H00M51S'],
+        ['PT001H15M01S', 'PT01H15M01S'],
     ) {
     my $t = $tp->[0];
     my $ret = $tp->[1] || $t;
