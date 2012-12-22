@@ -46,40 +46,42 @@ The date types will coerce from:
 
 - ` Num `
 
-The number is treated as a time in seconds since the unix epoch
+    The number is treated as a time in seconds since the unix epoch
 
 - ` DateTime `
 
-The duration represented as a [DateTime](http://search.cpan.org/perldoc?DateTime) object.
+    The duration represented as a [DateTime](http://search.cpan.org/perldoc?DateTime) object.
 
 - ` Str `
 
-Non-expanded date and time string representations.
+    Non-expanded date and time string representations.
 
-e.g.:-
+    e.g.:-
 
-20120113         => 2012-01-13
-170500Z          => 17:05:00Z
-20120113T170500Z => 2012-01-13T17:05:00Z
+    20120113         => 2012-01-13
+    170500Z          => 17:05:00Z
+    20120113T170500Z => 2012-01-13T17:05:00Z
 
-Representations of UTC time zone (only an offset of zero is supported)
+    Representations of UTC time zone (only an offset of zero is supported)
 
-e.g.:-
+    e.g.:-
 
-17:05:00+00:00 => 17:05:00Z
-17:05:00+00    => 17:05:00Z
-170500+0000    => 17:05:00Z
+    17:05:00+00:00 => 17:05:00Z
+    17:05:00+00    => 17:05:00Z
+    170500+0000    => 17:05:00Z
 
-2012-01-13T17:05:00+00:00 => 2012-01-13T17:05:00Z
-2012-01-13T17:05:00+00    => 2012-01-13T17:05:00Z
-20120113T170500+0000      => 2012-01-13T17:05:00Z
+    2012-01-13T17:05:00+00:00 => 2012-01-13T17:05:00Z
+    2012-01-13T17:05:00+00    => 2012-01-13T17:05:00Z
+    20120113T170500+0000      => 2012-01-13T17:05:00Z
 
-Also supports non-standards mixing of expanded and non-expanded representations
+    Also supports non-standards mixing of expanded and non-expanded representations
 
-e.g.:-
+    e.g.:-
 
-2012-01-13T170500Z => 2012-01-13T17:05:00Z
-20120113T17:05:00Z => 2012-01-13T17:05:00Z
+    2012-01-13T170500Z => 2012-01-13T17:05:00Z
+    20120113T17:05:00Z => 2012-01-13T17:05:00Z
+
+    In addition, there are coercions from these string types to [DateTime](http://search.cpan.org/perldoc?DateTime).
 
 # DURATION CONSTRAINTS
 
@@ -93,7 +95,7 @@ An ISO8601 time duration string. E.g. `PT01H01M01S`
 
 ## ISO8601DateTimeDurationStr
 
-An ISO8601 comboined date and time duration string. E.g. `P01Y01M01DT01H01M01S`
+An ISO8601 combined date and time duration string. E.g. `P01Y01M01DT01H01M01S`
 
 ## COERCIONS
 
@@ -101,43 +103,25 @@ The duration types will coerce from:
 
 - ` Num `
 
-The number is treated as a time in seconds
+    The number is treated as a time in seconds
 
 - ` DateTime::Duration `
 
-The duration represented as a [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration) object.
+    The duration represented as a [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration) object.
 
 The duration types will coerce to:
 
 - ` Duration `
 
-A [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration), i.e. the ` Duration ` constraint from
-[MooseX::Types::DateTime](http://search.cpan.org/perldoc?MooseX::Types::DateTime).
-
-# SEE ALSO
-
-- [MooseX::Types::DateTime](http://search.cpan.org/perldoc?MooseX::Types::DateTime)
-- [DateTime](http://search.cpan.org/perldoc?DateTime)
-- [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration)
-- [DateTime::Format::Duration](http://search.cpan.org/perldoc?DateTime::Format::Duration)
-
-# VERSION CONTROL
-
-    http://github.com/bobtfish/moosex-types-iso8601/tree/master
-
-Patches are welcome.
-
-# SEE ALSO
-
-- http://en.wikipedia.org/wiki/ISO\_8601
-- http://dotat.at/tmp/ISO\_8601-2004\_E.pdf
+    A [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration), i.e. the ` Duration ` constraint from
+    [MooseX::Types::DateTime](http://search.cpan.org/perldoc?MooseX::Types::DateTime).
 
 # FEATURES
 
 ## Fractional seconds
 
 If provided, the number of seconds in time types is represented to microsecond
-accuracy. A full stop character is used as the decimal seperator, which is
+accuracy. A full stop character is used as the decimal separator, which is
 allowed, but deprecated in preference to the comma character in
 _ISO 8601:2004_.
 
@@ -149,9 +133,24 @@ Specifically missing features:
 
 - No timezone support - all times are assumed UTC
 - No week number type
-- "Basic format", which lacks seperator characters, is not supported for
+- "Basic format", which lacks separator characters, is not supported for
 reading or writing.
 - Tests are rubbish.
+
+# SEE ALSO
+
+- [MooseX::Types::DateTime](http://search.cpan.org/perldoc?MooseX::Types::DateTime)
+- [DateTime](http://search.cpan.org/perldoc?DateTime)
+- [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration)
+- [DateTime::Format::Duration](http://search.cpan.org/perldoc?DateTime::Format::Duration)
+- [http://en.wikipedia.org/wiki/ISO\_8601](http://en.wikipedia.org/wiki/ISO\_8601)
+- [http://dotat.at/tmp/ISO\_8601-2004\_E.pdf](http://dotat.at/tmp/ISO\_8601-2004\_E.pdf)
+
+# VERSION CONTROL
+
+    http://github.com/bobtfish/moosex-types-iso8601/tree/master
+
+Patches are welcome.
 
 # AUTHOR
 
