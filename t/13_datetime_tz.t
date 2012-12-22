@@ -7,14 +7,22 @@ use MooseX::Types::ISO8601 qw/
 /;
 
 use Test::More;
+use Test::Deep;
 
 {
     note "String with offset into datetime";
     my $datetime = MooseX::Types::DateTime::to_DateTime('2011-02-03T04:05:06+01:30');
-    isa_ok($datetime, 'DateTime');
-    is($datetime->offset, 3600+1800);
-    is($datetime->datetime, "2011-02-03T04:05:06");
-    is($datetime->nanosecond, 0);
+    cmp_deeply(
+        $datetime,
+        all(
+            isa('DateTime'),
+            methods(
+                offset => 3600+1800,
+                datetime => "2011-02-03T04:05:06",
+                nanosecond => 0,
+            ),
+        ),
+    );
 
     note "DateTime into string";
     is(to_ISO8601DateTimeTZStr($datetime), "2011-02-03T04:05:06+01:30");
@@ -23,10 +31,17 @@ use Test::More;
 {
     note "String with offset into datetime, with precision";
     my $datetime = MooseX::Types::DateTime::to_DateTime('2011-02-03T04:05:06.000000001+01:30');
-    isa_ok($datetime, 'DateTime');
-    is($datetime->offset, 3600+1800);
-    is($datetime->datetime, "2011-02-03T04:05:06");
-    is($datetime->nanosecond, '000000001');
+    cmp_deeply(
+        $datetime,
+        all(
+            isa('DateTime'),
+            methods(
+                offset => 3600+1800,
+                datetime => "2011-02-03T04:05:06",
+                nanosecond => '000000001',
+            ),
+        ),
+    );
 
     # XXX - currently we don't generate nanosecond offsets for compatibility.
     note "DateTime into string";
