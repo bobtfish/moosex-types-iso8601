@@ -49,3 +49,24 @@ use Test::NoWarnings 1.04 ':early';
     is(to_ISO8601DateTimeTZStr($datetime), "2011-02-03T04:05:06+01:30");
 }
 
+{
+    # see RT#81777
+    note "String with offset into date (no time)";
+    my $datetime = MooseX::Types::DateTime::to_DateTime('2012-12-07+01:00');
+    cmp_deeply(
+        $datetime,
+        all(
+            isa('DateTime'),
+            methods(
+                offset => 3600,
+                datetime => '2012-12-07T00:00:00',
+            ),
+        ),
+    );
+    exit;
+    ok(is_ISO8601DateTZStr($datetime));
+    ok(is_ISO8601DateTimeTZStr($datetime));
+    is(to_ISO8601DateTimeTZStr($datetime), "2012-12-07T00:00:00+01:00");
+}
+
+
