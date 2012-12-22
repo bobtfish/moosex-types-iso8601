@@ -6,8 +6,9 @@ use MooseX::Types::ISO8601 qw/
     ISO8601DateTimeTZStr
 /;
 
-use Test::More;
+use Test::More tests => 5;
 use Test::Deep;
+use Test::NoWarnings 1.04 ':early';
 
 {
     note "String with offset into datetime";
@@ -48,4 +49,3 @@ use Test::Deep;
     is(to_ISO8601DateTimeTZStr($datetime), "2011-02-03T04:05:06+01:30");
 }
 
-done_testing;
