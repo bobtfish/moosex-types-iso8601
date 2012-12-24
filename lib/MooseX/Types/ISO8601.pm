@@ -5,6 +5,8 @@ use warnings;
 
 use DateTime 0.41;
 use aliased DateTime => 'DT';
+use DateTime::TimeZone;
+use DateTime::Duration;
 use DateTime::Format::Duration 1.03;
 use MooseX::Types::DateTime 0.03 qw(Duration DateTime);
 use MooseX::Types::Moose qw/Str Num/;
