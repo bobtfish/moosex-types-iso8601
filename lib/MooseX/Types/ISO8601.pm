@@ -1,4 +1,5 @@
 package MooseX::Types::ISO8601;
+# ABSTRACT: ISO8601 date and duration string type constraints and coercions for Moose
 
 use strict;
 use warnings;
