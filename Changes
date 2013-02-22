@@ -40,10 +40,12 @@ Revision history for {{$dist->name}}
           - Really fix so that it works in all cases.
 
 0.06      2010-09-06 15:44:00 BST+0100
-          - Fix so that it works wihtout MooseX::Types::DateTime::MySQL installed.
+          - Fix so that it works without MooseX::Types::DateTime::MySQL
+            installed.
 
 0.05      2010-09-06 15:16:00 BST+0100
-          - Add support for coercing to and from MooseX::Types::DateTime::MySQL
+          - Add support for coercing to and from
+            MooseX::Types::DateTime::MySQL
 
 0.04      2010-08-15 18:23:00 BST+0100
           - Fix tests on perls compiled with uselongdoubles (RT#60356)
@@ -52,8 +54,8 @@ Revision history for {{$dist->name}}
           - See also to the ISO8601 wiki page.
           - Added fractional times and tests to Durations.
           - Added coercion from Durations to DateTime objects
-          - Deal better with duration cases found in the spec and real world by
-            dealing with optionally empty hours.
+          - Deal better with duration cases found in the spec and real world
+            by dealing with optionally empty hours.
 
 0.02      2009-10-09 11:00:55 BST+0100
           - Fixed time types.
