@@ -4,9 +4,10 @@ use warnings;
 use MooseX::Types::DateTime;
 use MooseX::Types::ISO8601 qw/
     ISO8601DateTimeTZStr
+    ISO8601StrictDateTimeTZStr
 /;
 
-use Test::More tests => 5;
+use Test::More tests => 9;
 use Test::Deep;
 use Test::NoWarnings 1.04 ':early';
 
@@ -47,5 +48,13 @@ use Test::NoWarnings 1.04 ':early';
     # XXX - currently we don't generate nanosecond offsets for compatibility.
     note "DateTime into string";
     is(to_ISO8601DateTimeTZStr($datetime), "2011-02-03T04:05:06+01:30");
+}
+
+{
+    # it doesn't look like we can validate bad timezones, as it's just an arbitrary hour offset?
+    ok(is_ISO8601DateTimeTZStr('2013-02-31T00:00:00+01:00'), 'bad datetime validates against our regexp');
+    ok(!is_ISO8601StrictDateTimeTZStr('2013-02-31T00:00:00+01:00'), 'bad datetime is caught by strict type');
+    ok(is_ISO8601StrictDateTimeTZStr('2013-02-01T00:00:00+01:00'), 'good datetime passes strict type');
+    is(to_ISO8601StrictDateTimeTZStr('2013-02-01T00:00:00+01:00'), '2013-02-01T00:00:00+01:00');
 }
 

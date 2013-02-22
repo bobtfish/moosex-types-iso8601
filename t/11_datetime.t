@@ -2,10 +2,15 @@ use strict;
 use warnings;
 
 use MooseX::Types::DateTime;
+use DateTime::Format::ISO8601;
 use MooseX::Types::ISO8601 qw/
     ISO8601DateStr
     ISO8601TimeStr
     ISO8601DateTimeStr
+
+    ISO8601StrictDateStr
+    ISO8601StrictTimeStr
+    ISO8601StrictDateTimeStr
 /;
 
 # TODO: instead of relying on Moose attributes, just call ->check,
@@ -151,6 +156,25 @@ foreach my $tz ('', 'Z')
 {
     is(to_ISO8601DateTimeStr(5), '1970-01-01T00:00:05Z');
     is_ISO8601DateTimeStr(to_ISO8601DateTimeStr(time));
+}
+
+# strict types
+{
+    ok(is_ISO8601DateStr('2013-02-31'), 'bad date validates against our regexp');
+    ok(!is_ISO8601StrictDateStr('2013-02-31'), 'bad date is caught by strict type');
+    ok(is_ISO8601StrictDateStr('2013-02-01'), 'good date passes strict type');
+    is(to_ISO8601StrictDateStr(DateTime::Format::ISO8601->parse_datetime('2013-02-01')), '2013-02-01');
+
+    ok(is_ISO8601TimeStr('25:00:00'), 'bad time validates against our regexp');
+    ok(!is_ISO8601StrictTimeStr('25:00:00'), 'bad time is caught by strict type');
+    ok(is_ISO8601StrictTimeStr('23:00:00'), 'good time passes strict type');
+    # this isn't what we started with, but good enough...
+    is(to_ISO8601StrictTimeStr(DateTime::Format::ISO8601->parse_datetime('23:00:00')), '23:00:00Z');
+
+    ok(is_ISO8601DateTimeStr('2013-02-31T00:00:00'), 'bad datetime validates against our regexp');
+    ok(!is_ISO8601StrictDateTimeStr('2013-02-31T00:00:00'), 'bad datetime is caught by strict type');
+    ok(is_ISO8601StrictDateTimeStr('2013-02-01T00:00:00'), 'good datetime passes strict type');
+    is(to_ISO8601StrictDateTimeStr(DateTime::Format::ISO8601->parse_datetime('2013-02-01T00:00:00')), '2013-02-01T00:00:00Z');
 }
 
 done_testing;
