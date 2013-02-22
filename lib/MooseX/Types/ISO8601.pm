@@ -47,6 +47,11 @@ subtype ISO8601DateStr,
     as Str,
     where { /$date_re/ };
 
+# XXX TODO: this doesn't match all the ISO Time formats in the spec:
+# hhmmss
+# hhmm
+# hh
+# hh:mm
 subtype ISO8601TimeStr,
     as Str,
     where { /$time_re/ };
@@ -55,7 +60,10 @@ subtype ISO8601DateTimeStr,
     as Str,
     where { /$datetime_re/ };
 
- subtype ISO8601DateTimeTZStr,
+# XXX TODO: this doesn't match these offset indicators:
+# ±hhmm
+# ±hh
+subtype ISO8601DateTimeTZStr,
     as Str,
     where { /$datetimetz_re/ };
 
