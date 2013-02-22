@@ -38,22 +38,23 @@ use MooseX::Types 0.10 -declare => [qw(
     ISO8601DateTimeDurationStr
 )];
 
-my $date_re = qr/^(\d{4})-(\d{2})-(\d{2})$/;
+my $date_re =       qr/^(\d{4})-(\d{2})-(\d{2})$/;
+my $time_re =                               qr/^(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
+my $datetime_re =   qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
+my $datetimetz_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?((?:\+|-)\d\d:\d\d)$/;
+
 subtype ISO8601DateStr,
     as Str,
     where { /$date_re/ };
 
-my $time_re = qr/^(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
 subtype ISO8601TimeStr,
     as Str,
     where { /$time_re/ };
 
-my $datetime_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
 subtype ISO8601DateTimeStr,
     as Str,
     where { /$datetime_re/ };
 
-my $datetimetz_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?((?:\+|-)\d\d:\d\d)$/;
  subtype ISO8601DateTimeTZStr,
     as Str,
     where { /$datetimetz_re/ };
