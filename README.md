@@ -5,14 +5,22 @@ MooseX::Types::ISO8601 - ISO8601 date and duration string type constraints and c
 # SYNOPSIS
 
     use MooseX::Types::ISO8601 qw/
+        ISO8601DateTimeStr
         ISO8601TimeDurationStr
     /;
 
-    has duration => (
-        isa => ISO8601TimeDurationStr,
+    has datetime => (
         is => 'ro',
+        isa => ISO8601DateTimeStr,
+    );
+
+    has duration => (
+        is => 'ro',
+        isa => ISO8601TimeDurationStr,
         coerce => 1,
     );
+
+    Class->new( datetime => '2012-01-01T00:00:00' );
 
     Class->new( duration => 60 ); # 60s => PT00H01M00S
     Class->new( duration => DateTime::Duration->new(%args) )
@@ -39,6 +47,20 @@ An ISO8601 combined datetime string. E.g. `2009-06-11T12:06:34Z`
 ## ISO8601DateTimeTZStr
 
 An ISO8601 combined datetime string with a fully specified timezone. E.g. `2009-06-11T12:06:34+00:00`
+
+## ISO8601StrictDateStr
+
+## ISO8601StrictTimeStr
+
+## ISO8601StrictDateTimeStr
+
+## ISO8601StrictDateTimeTZStr
+
+As above, only in addition to validating the strings against regular
+expressions, an attempt is made to actually parse the data into a [DateTime](http://search.cpan.org/perldoc?DateTime)
+object.  This will catch cases like '2013-02-31' which look correct but do not
+correspond to real-world values.  Note that this is bears a computation
+penalty.
 
 ## COERCIONS
 
@@ -142,6 +164,7 @@ reading or writing.
 - [MooseX::Types::DateTime](http://search.cpan.org/perldoc?MooseX::Types::DateTime)
 - [DateTime](http://search.cpan.org/perldoc?DateTime)
 - [DateTime::Duration](http://search.cpan.org/perldoc?DateTime::Duration)
+- [DateTime::Format::ISO8601](http://search.cpan.org/perldoc?DateTime::Format::ISO8601)
 - [DateTime::Format::Duration](http://search.cpan.org/perldoc?DateTime::Format::Duration)
 - [http://en.wikipedia.org/wiki/ISO\_8601](http://en.wikipedia.org/wiki/ISO\_8601)
 - [http://dotat.at/tmp/ISO\_8601-2004\_E.pdf](http://dotat.at/tmp/ISO\_8601-2004\_E.pdf)

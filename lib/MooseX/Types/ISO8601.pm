@@ -16,6 +16,9 @@ use MooseX::Types::Moose qw/Str Num/;
 use List::MoreUtils qw/ zip /;
 use Scalar::Util qw/ looks_like_number /;
 use Class::Load 'try_load_class';
+use Module::Runtime 'use_module';
+use Try::Tiny;
+use Safe::Isa;
 
 our $MYSQL;
 BEGIN {
@@ -32,31 +35,67 @@ use MooseX::Types 0.10 -declare => [qw(
     ISO8601TimeStr
     ISO8601DateTimeStr
     ISO8601DateTimeTZStr
+
+    ISO8601StrictDateStr
+    ISO8601StrictTimeStr
+    ISO8601StrictDateTimeStr
+    ISO8601StrictDateTimeTZStr
+
     ISO8601TimeDurationStr
     ISO8601DateDurationStr
     ISO8601DateTimeDurationStr
     ISO8601DateTimeDurationStr
 )];
 
-my $date_re = qr/^(\d{4})-(\d{2})-(\d{2})$/;
+my $date_re =       qr/^(\d{4})-(\d{2})-(\d{2})$/;
+my $time_re =                               qr/^(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
+my $datetime_re =   qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
+my $datetimetz_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?((?:\+|-)\d\d:\d\d)$/;
+
 subtype ISO8601DateStr,
     as Str,
     where { /$date_re/ };
 
-my $time_re = qr/^(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
+# XXX TODO: this doesn't match all the ISO Time formats in the spec:
+# hhmmss
+# hhmm
+# hh
+# hh:mm
 subtype ISO8601TimeStr,
     as Str,
     where { /$time_re/ };
 
-my $datetime_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?Z?$/;
 subtype ISO8601DateTimeStr,
     as Str,
     where { /$datetime_re/ };
 
-my $datetimetz_re = qr/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:(?:\.|,)(\d+))?((?:\+|-)\d\d:\d\d)$/;
- subtype ISO8601DateTimeTZStr,
+# XXX TODO: this doesn't match these offset indicators:
+# ±hhmm
+# ±hh
+subtype ISO8601DateTimeTZStr,
     as Str,
     where { /$datetimetz_re/ };
+
+subtype ISO8601StrictDateStr,
+    as ISO8601DateStr,
+    where { (try { use_module('DateTime::Format::ISO8601')->parse_datetime($_) })->$_isa('DateTime') };
+
+subtype ISO8601StrictTimeStr,
+    as ISO8601TimeStr,
+    where {
+        (   try { use_module('DateTime::Format::ISO8601')->parse_datetime($_) }
+         || try { DateTime::Format::ISO8601->parse_time($_) }
+        )->$_isa('DateTime')
+    };
+
+subtype ISO8601StrictDateTimeStr,
+    as ISO8601DateTimeStr,
+    where { (try { use_module('DateTime::Format::ISO8601')->parse_datetime($_) })->$_isa('DateTime') };
+
+subtype ISO8601StrictDateTimeTZStr,
+    as ISO8601DateTimeTZStr,
+    where { (try { use_module('DateTime::Format::ISO8601')->parse_datetime($_) })->$_isa('DateTime') };
+
 
 # TODO: According to ISO 8601:2004(E), the lowest order components may be
 # omitted, if less accuracy is required.  The lowest component may also have
@@ -120,6 +159,8 @@ subtype ISO8601DateTimeDurationStr,
             $_[0]->ymd('-') . 'T' . $_[0]->hms(':') . "$1:$2"
         },
     );
+    @coerce{(ISO8601StrictTimeStr, ISO8601StrictDateStr, ISO8601StrictDateTimeStr, ISO8601StrictDateTimeTZStr)} =
+        @coerce{(ISO8601TimeStr, ISO8601DateStr, ISO8601DateTimeStr, ISO8601DateTimeTZStr)};
 
     foreach my $type_name (keys %coerce) {
 
@@ -156,6 +197,8 @@ subtype ISO8601DateTimeDurationStr,
             return $_;
         },
     );
+    @coerce{(ISO8601StrictTimeStr, ISO8601StrictDateStr, ISO8601StrictDateTimeStr, ISO8601StrictDateTimeTZStr)} =
+        @coerce{(ISO8601TimeStr, ISO8601DateStr, ISO8601DateTimeStr, ISO8601DateTimeTZStr)};
 
     foreach my $type_name (keys %coerce) {
 
@@ -250,14 +293,22 @@ MooseX::Types::ISO8601 - ISO8601 date and duration string type constraints and c
 =head1 SYNOPSIS
 
     use MooseX::Types::ISO8601 qw/
+        ISO8601DateTimeStr
         ISO8601TimeDurationStr
     /;
 
-    has duration => (
-        isa => ISO8601TimeDurationStr,
+    has datetime => (
         is => 'ro',
+        isa => ISO8601DateTimeStr,
+    );
+
+    has duration => (
+        is => 'ro',
+        isa => ISO8601TimeDurationStr,
         coerce => 1,
     );
+
+    Class->new( datetime => '2012-01-01T00:00:00' );
 
     Class->new( duration => 60 ); # 60s => PT00H01M00S
     Class->new( duration => DateTime::Duration->new(%args) )
@@ -284,6 +335,20 @@ An ISO8601 combined datetime string. E.g. C<< 2009-06-11T12:06:34Z >>
 =head2 ISO8601DateTimeTZStr
 
 An ISO8601 combined datetime string with a fully specified timezone. E.g. C<< 2009-06-11T12:06:34+00:00 >>
+
+=head2 ISO8601StrictDateStr
+
+=head2 ISO8601StrictTimeStr
+
+=head2 ISO8601StrictDateTimeStr
+
+=head2 ISO8601StrictDateTimeTZStr
+
+As above, only in addition to validating the strings against regular
+expressions, an attempt is made to actually parse the data into a L<DateTime>
+object.  This will catch cases like '2013-02-31' which look correct but do not
+correspond to real-world values.  Note that this is bears a computation
+penalty.
 
 =head2 COERCIONS
 
@@ -424,6 +489,10 @@ L<DateTime>
 =item *
 
 L<DateTime::Duration>
+
+=item *
+
+L<DateTime::Format::ISO8601>
 
 =item *
 
