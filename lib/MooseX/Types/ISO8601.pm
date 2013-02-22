@@ -346,7 +346,7 @@ An ISO8601 combined datetime string with a fully specified timezone. E.g. C<< 20
 
 As above, only in addition to validating the strings against regular
 expressions, an attempt is made to actually parse the data into a L<DateTime>
-object.  This will catch cases like '2013-02-31' which look correct but do not
+object.  This will catch cases like C<< 2013-02-31 >> which look correct but do not
 correspond to real-world values.  Note that this bears a computation
 penalty.
 
