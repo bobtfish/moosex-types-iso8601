@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.14      2013-02-22 10:53:00 PST-0800 (Karen Etheridge)
         - New strict types, which verify that the data actually can be inflated
           into a valid DateTime object
 
