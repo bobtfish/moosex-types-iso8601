@@ -71,7 +71,7 @@ undef, 'Date class instance with coercion');
 
 foreach my $tz ('', 'Z')
 {
-    my $datetime = MooseX::Types::DateTime::to_DateTime('2011-01-04T18:14:15.1234Z');
+    my $datetime = MooseX::Types::DateTime::to_DateTime('2011-01-04T18:14:15.1234' . $tz);
     isa_ok($datetime, 'DateTime');
     is($datetime->year, 2011);
     is($datetime->month, 1);
@@ -96,7 +96,6 @@ foreach my $tz ('', 'Z')
 #    is($time->minute, 14);
 #    is($time->second, 12);
 #    is($time->nanosecond, 123400000);
-
 
 }
 
