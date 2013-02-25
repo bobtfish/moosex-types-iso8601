@@ -13,21 +13,21 @@ use Test::NoWarnings 1.04 ':early';
 
 {
     note "String with offset into datetime";
-    my $datetime = MooseX::Types::DateTime::to_DateTime('2011-02-03T04:05:06+01:30');
+    my $datetime = MooseX::Types::DateTime::to_DateTime('2011-02-01T04:05:06+01:30');
     cmp_deeply(
         $datetime,
         all(
             isa('DateTime'),
             methods(
                 offset => 3600+1800,
-                datetime => "2011-02-03T04:05:06",
+                datetime => "2011-02-01T04:05:06",
                 nanosecond => 0,
             ),
         ),
     );
 
     note "DateTime into string";
-    is(to_ISO8601DateTimeTZStr($datetime), "2011-02-03T04:05:06+01:30");
+    is(to_ISO8601DateTimeTZStr($datetime), "2011-02-01T04:05:06+01:30");
 }
 
 {
