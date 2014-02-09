@@ -28,7 +28,7 @@ BEGIN {
             $MYSQL = 1;
     }
 }
-use namespace::autoclean 0.05;
+use if MooseX::Types->VERSION >= 0.42, 'namespace::autoclean';
 
 use MooseX::Types 0.10 -declare => [qw(
     ISO8601DateStr
