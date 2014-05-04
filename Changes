@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - remove the install-side pod test with encoding complaints
 
 0.14      2013-02-22 18:53:00Z
           - New strict types, which verify that the data actually can be

@@ -4,6 +4,7 @@ package MooseX::Types::ISO8601;
 use strict;
 use warnings;
 
+use utf8;
 use DateTime 0.41;
 # this alias lets us distinguish the class from the class_type in versions of
 # MooseX::Types that can't figure that out for us (i.e. before 0.32)
