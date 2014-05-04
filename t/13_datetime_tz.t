@@ -13,33 +13,33 @@ use Test::NoWarnings 1.04 ':early';
 
 {
     note "String with offset into datetime";
-    my $datetime = MooseX::Types::DateTime::to_DateTime('2011-02-01T04:05:06+01:30');
+    my $datetime = MooseX::Types::DateTime::to_DateTime('2011-02-01T00:05:06+01:30');
     cmp_deeply(
         $datetime,
         all(
             isa('DateTime'),
             methods(
                 offset => 3600+1800,
-                datetime => "2011-02-01T04:05:06",
+                datetime => "2011-02-01T00:05:06",
                 nanosecond => 0,
             ),
         ),
     );
 
     note "DateTime into string";
-    is(to_ISO8601DateTimeTZStr($datetime), "2011-02-01T04:05:06+01:30");
+    is(to_ISO8601DateTimeTZStr($datetime), "2011-02-01T00:05:06+01:30");
 }
 
 {
     note "String with offset into datetime, with precision";
-    my $datetime = MooseX::Types::DateTime::to_DateTime('2011-02-03T04:05:06.000000001+01:30');
+    my $datetime = MooseX::Types::DateTime::to_DateTime('2011-02-03T01:05:06.000000001+01:30');
     cmp_deeply(
         $datetime,
         all(
             isa('DateTime'),
             methods(
                 offset => 3600+1800,
-                datetime => "2011-02-03T04:05:06",
+                datetime => "2011-02-03T01:05:06",
                 nanosecond => '000000001',
             ),
         ),
@@ -47,14 +47,14 @@ use Test::NoWarnings 1.04 ':early';
 
     # XXX - currently we don't generate nanosecond offsets for compatibility.
     note "DateTime into string";
-    is(to_ISO8601DateTimeTZStr($datetime), "2011-02-03T04:05:06+01:30");
+    is(to_ISO8601DateTimeTZStr($datetime), "2011-02-03T01:05:06+01:30");
 }
 
 {
     # it doesn't look like we can validate bad timezones, as it's just an arbitrary hour offset?
-    ok(is_ISO8601DateTimeTZStr('2013-02-31T00:00:00+01:00'), 'bad datetime validates against our regexp');
-    ok(!is_ISO8601StrictDateTimeTZStr('2013-02-31T00:00:00+01:00'), 'bad datetime is caught by strict type');
-    ok(is_ISO8601StrictDateTimeTZStr('2013-02-01T00:00:00+01:00'), 'good datetime passes strict type');
-    is(to_ISO8601StrictDateTimeTZStr('2013-02-01T00:00:00+01:00'), '2013-02-01T00:00:00+01:00');
+    ok(is_ISO8601DateTimeTZStr('2013-02-31T02:00:00+01:00'), 'bad datetime validates against our regexp');
+    ok(!is_ISO8601StrictDateTimeTZStr('2013-02-31T03:00:00+01:00'), 'bad datetime is caught by strict type');
+    ok(is_ISO8601StrictDateTimeTZStr('2013-02-01T04:00:00+01:00'), 'good datetime passes strict type');
+    is(to_ISO8601StrictDateTimeTZStr('2013-02-01T05:00:00+01:00'), '2013-02-01T05:00:00+01:00');
 }
 
